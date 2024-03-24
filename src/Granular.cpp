@@ -8,16 +8,6 @@
 #include "Granular.hpp"
 
 
-GranularConfig::GranularConfig() {
-    this->delayTime = NULL;
-    this->sampleRate = NULL;
-    this->feedback = NULL;
-}
-
-GranularConfig::~GranularConfig() {
-
-}
-
 
 bool Granular::setup(GranularConfig config) {
     this->_config = config;
@@ -33,6 +23,12 @@ bool Granular::setup(GranularConfig config) {
         _particles[i].loopPointer = this->_config.loopStart;
     }
     
+
+    if (!_envFollower.setup(15,2)) {
+        std::cerr << "Unable to setup Envelope Follower" << std::endl;
+        return false;
+    }
+    
     return true;
 }
 
@@ -40,6 +36,18 @@ bool Granular::updateConfig(GranularConfig config) {
     _config = config;
     _state.readPointer = (this->_config.delayBufferSize+(_state.writePointer-_config.delayTime))%this->_config.delayBufferSize;
     return true;
+}
+
+bool Granular::distributePitch(std::vector<float> pitches) {
+    if (pitches.size() == this->_particles.size()) {
+        for (int i = 0; i < this->_particles.size(); i++) {
+            this->_particles[i].loopSpeed = pitches[i];
+        }
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 
@@ -61,6 +69,22 @@ float Granular::processDelay(float input) {
 
 void Granular::updateBuffer(float value) {
     _delayBuffer[_particles[0].writePointer] = value;
+    
+    // clear table of existing transients
+    for (int i = 0; i < transientPositions.size(); i++) {
+        if (_particles[0].writePointer == transientPositions[i]) {
+            transientPositions.erase(transientPositions.begin()+i);
+        }
+    }
+    
+    // detect transients
+    if (_envFollower.detect(value)) {
+        std::cout << "transient detected!! " << std::endl;
+        this->addTransient(_particles[0].writePointer);
+    }
+    
+
+    
     for (int i = 0; i < _config.numGrains; i++) {
         // Should not have seperate write pointer per grain
         _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
@@ -71,6 +95,8 @@ void Granular::updateBuffer(float value) {
 GranularState Granular::getState() {
     return _state;
 }
+
+
 
 float Granular::processGrain(int index) {
     
@@ -93,19 +119,15 @@ float Granular::processGrain(int index) {
     float out = _delayBuffer[prevIdx]*fracBelow+_delayBuffer[prevIdx+1]*fracAbove;
 #endif
     
-//    float out = _delayBuffer[(int) state->loopPointer];
     if (state->loopPointer >= _config.delayBufferSize || state->loopPointer < 0) {
         out = 0;
     }
-//    std::cout << "before: " << state->loopPointer << std::endl;
-    state->loopPointer = state->loopPointer+this->_config.playbackSpeed;
-//    std::cout << "after: " << state->loopPointer << std::endl;
+    state->loopPointer = state->loopPointer+state->loopSpeed;
     
     // this is kinda sketchy lmao
     bool grainEnd;
-    if (this->_config.playbackSpeed >= 0) {
+    if (state->loopSpeed >= 0) {
         grainEnd = state->loopPointer >= state->loopStart+state->loopLength;
-//        std::cout << grainEnd << std::endl;
     }
     else {
         grainEnd = state->loopPointer <= state->loopStart-state->loopLength;
@@ -125,10 +147,22 @@ float Granular::processGrain(int index) {
             }
         }
         else {
-            state->loopStart=_config.loopStart;
+            // Generate Params for Next Grain
+            if (_config.warpAmount > 0.5 && transientPositions.size() >= 1) {
+                int idx = std::rand() % transientPositions.size();
+                int chance = std::rand() % 2;
+                if (chance ==0) {
+                    state->loopStart=transientPositions[idx];
+                } else {
+                    state->loopStart=_particles[(index+1)%_particles.size()].loopStart;
+                }
+
+            } else {
+                state->loopStart=_config.loopStart;
+            }
         }
         
-        // New Randomness Params
+
         state->loopStart +=(this->_config.startRandomness*ofRandomf()*100000);
         state->loopPointer = state->loopStart;
         
@@ -149,7 +183,9 @@ float Granular::processGrain(int index) {
 float Granular::processLoop() {
     float out = 0;
     for (int i = 0; i < _config.numGrains; i++) {
-        out += processGrain(i);
+        if (_particles[i].active) {
+            out += processGrain(i);
+        }
     }
     return out;
 }

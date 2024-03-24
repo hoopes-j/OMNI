@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "Utils.h"
+#include "EnvelopeFollower.hpp"
 
 #define INTERPOLATION_METHOD 'cubic'
 
@@ -30,12 +31,17 @@ public:
     bool follow;
     float loopStart;
     float playbackSpeed;
+    float warpAmount;
     
     float startRandomness;
     float lengthRandomness;
     
-    GranularConfig();
-    ~GranularConfig();
+    GranularConfig() {
+        this->delayTime = NULL;
+        this->sampleRate = NULL;
+        this->feedback = NULL;
+        this->follow = false;
+    }
 };
 
 class GranularState {
@@ -47,8 +53,15 @@ public:
     float loopPointer;
     float loopStart;
     float loopLength;
+    float loopSpeed;
+    bool active;
     
     float windowEnvelope;
+    
+    GranularState() {
+        this->active = true;
+        this->loopSpeed = 1.0;
+    }
     
     std::string toString();
     
@@ -61,6 +74,9 @@ class Granular {
     std::vector<GranularState> _particles;
     float * _delayBuffer;
     int _delayBufferSize;
+    
+    EnvFollower _envFollower;
+    std::vector<int> transientPositions;
     
     
 public:
@@ -82,6 +98,16 @@ public:
     
     GranularState getState();
     const std::vector<GranularState> getStates();
+    
+    bool distributePitch(std::vector<float> pitches);
+    
+    void addTransient(int location) {
+        transientPositions.push_back(location);
+    };
+    
+    std::vector<int> getTransients() {
+        return transientPositions;
+    }
     
     
 

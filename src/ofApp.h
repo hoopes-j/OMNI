@@ -7,6 +7,8 @@
 #include "Utils.h"
 #include "ofxDropdown.h"
 #include "Processor.hpp"
+#include "gui/GrainSliders.hpp"
+#include "EnvelopeFollower.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -61,13 +63,14 @@ class ofApp : public ofBaseApp{
     
         Granular gran;
         GranularConfig granConfig;
-    
         Processor processor;
     
         // Test File
         MonoFilePlayer mockInput;
         bool useMockInput;
     
+    
+        std::vector<int> warpPoints;
     
     
         // GUI
@@ -83,6 +86,8 @@ class ofApp : public ofBaseApp{
         ofxToggle follow;
         ofxIntSlider loopStart;
         ofxFloatSlider playbackSpeed;
+        ofxFloatSlider warpingAmount;
+//        std::vector<ofParameter<float> grainSpeeds;
     
         // Randomness
         ofxPanel randness;
@@ -94,6 +99,9 @@ class ofApp : public ofBaseApp{
         ofParameter<string> options;//, options2;
         ofParameter<int> intOptions;
         ofxToggle mockInputToggle;
+    
+        // Pitch;
+        std::vector<ofxFloatSlider> grainSpeeds;
 
         unique_ptr<ofxDropdown> outputDropdown;
         void ofOutputChanged(string & output);
@@ -126,6 +134,11 @@ class ofApp : public ofBaseApp{
         // Video
         ofVideoPlayer videoPlayer;
         ofTexture videoTexture;
+    
+    
+        ofParameterGroup mainGroup;
+        GrainSliders gSliders;
+    
     
     
     

@@ -39,7 +39,7 @@ bool Processor::setup(int bufferSize) {
     
     for (int i = 0; i < n_fft; i++) {
         float f = f_out[i].r;
-        std::cout << f << std::endl;
+//        std::cout << f << std::endl;
     }
     
 

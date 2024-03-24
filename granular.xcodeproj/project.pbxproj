@@ -38,7 +38,10 @@
 		"9D39AE2E-5BD1-4881-9E4D-9730C38C9FF9" /* ofxDropdownOption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "81D73AFB-E5EF-480A-8A64-524947103F89" /* ofxDropdownOption.cpp */; };
 		"A221DE59-6BC9-4A69-89D5-D576FD505BB8" /* ofxEasyFft.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "2B24C6DF-C489-48A7-AFD6-0C9DF3F3A667" /* ofxEasyFft.cpp */; };
 		"A4742F9B-C0BA-40D9-A2B0-BDA724193BED" /* Granular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "1B10D037-89B4-42A9-9C1A-C55BBBB2599D" /* Granular.cpp */; };
+		AA4AE1402BAF58F500D15D2C /* EnvelopeFollower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE13E2BAF58F500D15D2C /* EnvelopeFollower.cpp */; };
+		AA4AE1462BAF60EF00D15D2C /* UnitTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE1442BAF60EF00D15D2C /* UnitTests.cpp */; };
 		AAA686982B8F89230010E21A /* Spatializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA686962B8F89230010E21A /* Spatializer.cpp */; };
+		AAF1BC322BAA499F005EA5D9 /* GrainSliders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAF1BC302BAA499F005EA5D9 /* GrainSliders.cpp */; };
 		"B6EB79EB-EB65-40FD-A2E0-7FF3FC6B8DD9" /* ofxRtMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "78E3F4AF-D263-4C0C-8FB0-E8FD8B68AB34" /* ofxRtMidiOut.cpp */; };
 		"BABE1C98-D0EF-4713-AF60-C3941A01DE4F" /* sample[voice].wav in Sources */ = {isa = PBXBuildFile; fileRef = "32E34F14-E0A7-469A-8CE1-30596E304D3F" /* sample[voice].wav */; };
 		"BD60E349-9273-4010-A0FF-989F8EA7599D" /* ofxMidiTimecode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "A22F1A59-3563-43C2-86EB-EB00ABEE8672" /* ofxMidiTimecode.cpp */; };
@@ -134,9 +137,16 @@
 		"A27C8287-E752-4989-A63F-6BF17A33F6E0" /* ofxRtMidiIn.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxRtMidiIn.cpp; path = ../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.cpp; sourceTree = SOURCE_ROOT; };
 		"A2A0578F-1C44-494C-A035-3686295E7C98" /* ofxEasyFft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxEasyFft.h; path = ../../../addons/ofxFft/src/ofxEasyFft.h; sourceTree = SOURCE_ROOT; };
 		"A672337E-76F3-42BC-A9AB-3B7A9E1B8F98" /* ofxMidiIn.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxMidiIn.h; path = ../../../addons/ofxMidi/src/ofxMidiIn.h; sourceTree = SOURCE_ROOT; };
+		AA4AE13E2BAF58F500D15D2C /* EnvelopeFollower.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EnvelopeFollower.cpp; sourceTree = "<group>"; };
+		AA4AE13F2BAF58F500D15D2C /* EnvelopeFollower.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EnvelopeFollower.hpp; sourceTree = "<group>"; };
+		AA4AE1442BAF60EF00D15D2C /* UnitTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UnitTests.cpp; sourceTree = "<group>"; };
+		AA4AE1452BAF60EF00D15D2C /* UnitTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UnitTests.hpp; sourceTree = "<group>"; };
+		AA4AE1482BAF617B00D15D2C /* EnvelopeFollowerTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EnvelopeFollowerTests.hpp; path = EnvelopeFollowerTests/EnvelopeFollowerTests.hpp; sourceTree = "<group>"; };
 		AAA686962B8F89230010E21A /* Spatializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Spatializer.cpp; path = Spatial/Spatializer.cpp; sourceTree = "<group>"; };
 		AAA686972B8F89230010E21A /* Spatializer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Spatializer.hpp; path = Spatial/Spatializer.hpp; sourceTree = "<group>"; };
 		"AAADB988-9126-4535-801A-E7A48E1CFCC6" /* ofxFftw.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxFftw.h; path = ../../../addons/ofxFft/src/ofxFftw.h; sourceTree = SOURCE_ROOT; };
+		AAF1BC302BAA499F005EA5D9 /* GrainSliders.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = GrainSliders.cpp; path = gui/GrainSliders.cpp; sourceTree = "<group>"; };
+		AAF1BC312BAA499F005EA5D9 /* GrainSliders.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = GrainSliders.hpp; path = gui/GrainSliders.hpp; sourceTree = "<group>"; };
 		"ABD1035C-9132-431B-8DB1-A1FDDFE2850D" /* kiss_fft.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = kiss_fft.h; path = ../../../addons/ofxFft/libs/kiss/kiss_fft.h; sourceTree = SOURCE_ROOT; };
 		"B47E627C-6044-41E2-82BF-1BA6263DE17A" /* ofxBaseMidi.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxBaseMidi.cpp; path = ../../../addons/ofxMidi/src/ofxBaseMidi.cpp; sourceTree = SOURCE_ROOT; };
 		"B7DCE8A4-0B4D-428B-A704-475EC761098D" /* ofxSlider.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = ofxSlider.cpp; path = ../../../addons/ofxGui/src/ofxSlider.cpp; sourceTree = SOURCE_ROOT; };
@@ -284,6 +294,25 @@
 			path = ../../../addons/ofxGui/src;
 			sourceTree = SOURCE_ROOT;
 		};
+		AA4AE1412BAF590300D15D2C /* EnvelopeFollower */ = {
+			isa = PBXGroup;
+			children = (
+				AA4AE13E2BAF58F500D15D2C /* EnvelopeFollower.cpp */,
+				AA4AE13F2BAF58F500D15D2C /* EnvelopeFollower.hpp */,
+			);
+			name = EnvelopeFollower;
+			sourceTree = "<group>";
+		};
+		AA4AE1422BAF60A500D15D2C /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA4AE1442BAF60EF00D15D2C /* UnitTests.cpp */,
+				AA4AE1452BAF60EF00D15D2C /* UnitTests.hpp */,
+				AA4AE1482BAF617B00D15D2C /* EnvelopeFollowerTests.hpp */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
 		"B85A78D4-2B34-4DAD-907B-62A7FD6C70DB" /* ofxMidi */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +427,7 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AA4AE1422BAF60A500D15D2C /* UnitTests */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
@@ -422,6 +452,9 @@
 				"17903009-15C5-41E1-B7C8-EC5107725494" /* video.mp4 */,
 				AAA686962B8F89230010E21A /* Spatializer.cpp */,
 				AAA686972B8F89230010E21A /* Spatializer.hpp */,
+				AAF1BC302BAA499F005EA5D9 /* GrainSliders.cpp */,
+				AAF1BC312BAA499F005EA5D9 /* GrainSliders.hpp */,
+				AA4AE1412BAF590300D15D2C /* EnvelopeFollower */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -557,6 +590,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				AA4AE1462BAF60EF00D15D2C /* UnitTests.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				"5B70E1F8-FF72-4FD4-B153-11FF6F2DD5E0" /* AudioFileUtilities.cpp in Sources */,
 				"56F36B86-1C4D-4E84-BA76-CDB66719AF99" /* FFT.cpp in Sources */,
@@ -580,10 +614,12 @@
 				"0C424BD0-430A-4D20-8284-D632941E889D" /* ofxFft.cpp in Sources */,
 				"24A78302-55E1-4907-84E0-DB191DF2BE6A" /* ofxFftBasic.cpp in Sources */,
 				"629ABD65-471B-482D-A1B2-0BB6D8105587" /* ofxFftw.cpp in Sources */,
+				AAF1BC322BAA499F005EA5D9 /* GrainSliders.cpp in Sources */,
 				"FE8B2920-EE1A-4DC7-AD90-395A4726C23F" /* ofxProcessFFT.cpp in Sources */,
 				"91F227D9-F276-42ED-AC5D-84522475E41D" /* ofxBaseGui.cpp in Sources */,
 				"217D686A-14A4-4887-8FCD-18B207BC1551" /* ofxButton.cpp in Sources */,
 				"55EDB285-D99C-42D5-96BF-8B766F956E29" /* ofxColorPicker.cpp in Sources */,
+				AA4AE1402BAF58F500D15D2C /* EnvelopeFollower.cpp in Sources */,
 				"9602A11F-176F-4269-B118-077F9220B436" /* ofxGuiGroup.cpp in Sources */,
 				"89F49606-473F-4321-8DEB-66F574EAD10D" /* ofxInputField.cpp in Sources */,
 				"303450C6-5FA8-4157-87C7-D01DC275E753" /* ofxLabel.cpp in Sources */,

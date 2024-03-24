@@ -3,11 +3,12 @@
 #include "Granular.hpp"
 #include "MonoFilePlayer.h"
 #include <mutex>
+#include "UnitTests/UnitTests.hpp"
 
 
 #define MOCK_INPUT
-#define NUM_GRAINS 16
-
+#define NUM_GRAINS 1
+#define RUN_UNIT_TESTS
 
 
 
@@ -24,6 +25,12 @@ void ofApp::setup(){
     
 
     this->stopAudio = false;
+    
+#ifdef RUN_UNIT_TESTS
+    UnitTests tests;
+    tests.runAll();
+#endif
+    
     
     
     
@@ -74,7 +81,13 @@ void ofApp::setup(){
 //        return false;
     }
     
-    // GUI
+    
+    
+    
+
+
+    
+    // ================== GUI
     gui.setup("delay");
     gui.add(delayTime.setup("delay time", this->sampsToMs(granConfig.delayTime), 0, this->sampsToMs(granConfig.delayBufferSize)));
     gui.add(feedback.setup("feedback", 0.1, 0.0, 0.8));
@@ -86,11 +99,22 @@ void ofApp::setup(){
     globalCtrl.add(follow.setup("follow"));
     globalCtrl.add(loopStart.setup("loop start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
     globalCtrl.add(playbackSpeed.setup("speed", 1.0, -2.0, 2.0));
+    globalCtrl.add(warpingAmount.setup("warp", 1.0, 0.0, 1.0));
+   
+    gSliders.setup(NUM_GRAINS);
+    globalCtrl.add(gSliders.params);
+    
+//    grainSpeeds.resize(granConfig.numGrains);
+//    for (int i = 0; i < granConfig.numGrains; i++) {
+//        globalCtrl.add(grainSpeeds[i].setup("Grain i", 1.0, -2.0, 2.0));
+//    }
 
     
     randness.setup("Randomness", "settings.xml", 0, 500);
     randness.add(startRandomness.setup("start", 0.0, 0.0, 1.0));
     randness.add(lengthRandomness.setup("length", 0.0, 0.0, 1.0));
+    
+    
     
     
     
@@ -142,6 +166,8 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
 
     for(size_t i = 0; i < outBuffer.getNumFrames(); i++) {
         
+
+        
         
         float in = 0;
 #ifdef MOCK_INPUT
@@ -150,20 +176,24 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
 //        in = inputBuffer[i];
         in = lastInputBuffer[i];
 #endif
+        
+
+        
 
         gran.updateBuffer(in);
+                
         float wet = 0;
         if (granConfig.loopOn) {
             wet = gran.processLoop();
         }
         float dry = in;
         
-        
         // write the computed sample to the left and right channels
-        tmpBuf[i] = wet;
+        tmpBuf[i] = wet * wetDryKnob;
         tmpBuf2[i] = wet;
-        outBuffer.getSample(i,0) = wet;
-        outBuffer.getSample(i,1) = dry;
+        outBuffer.getSample(i,0) = wet*wetDryKnob+dry*(1-wetDryKnob);
+        outBuffer.getSample(i,1) = wet*wetDryKnob+dry*(1-wetDryKnob);
+        
 //        outBuffer.getSample(i,0) = wet;
 //        outBuffer.getSample(i,1) = wet;
     }
@@ -183,18 +213,16 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
     lastGrainStates = gran.getStates();
     lastBuffer = outBuffer;
 }
-
+int globalFrame = 0;
 void ofApp::audioIn(ofSoundBuffer & input){
     
+   
+    globalFrame++;
     for (int frame = 0; frame < input.getNumFrames(); frame++) {
         inputBuffer[frame] = input[frame];
-//        gran.writeFrame(input[frame]);
     }
     unique_lock<mutex> lock(audioMutex);
-    
-
     lastInputBuffer = input;
-
 }
 
 //--------------------------------------------------------------
@@ -257,13 +285,25 @@ void ofApp::update(){
     granConfig.loopLength = msToSamps(loopLength);
     granConfig.loopStart = msToSamps(loopStart);
     granConfig.playbackSpeed = playbackSpeed;
-    granConfig.follow = follow;
+    granConfig.follow = follow = false;
+    granConfig.warpAmount = warpingAmount;
     
     granConfig.startRandomness = this->startRandomness;
     granConfig.lengthRandomness = this->lengthRandomness;
     
+    std::vector<float> pitches(NUM_GRAINS);
+    for (int i = 0; i<NUM_GRAINS; i++) {
+        pitches[i]=gSliders.pitches[i]*gSliders.pitchMultiplier;
+    }
+    
+    
+    gran.distributePitch(pitches);
+    
+    
+    warpPoints = gran.getTransients();
     
     gran.updateConfig(granConfig);
+    
         
     waveform.clear();
     int offset = 3;
@@ -273,7 +313,11 @@ void ofApp::update(){
         pointers[i] = drawGrainPointer(i, 1.0);
         grainBBs[i] = drawGrainBB(i);
     }
-    writePointer = drawWritePointer(lastGrainStates[0].writePointer);
+    
+    if (lastGrainStates.size() > 0) {
+        writePointer = drawWritePointer(lastGrainStates[0].writePointer);
+    }
+
 }
 
 ofPolyline ofApp::drawWaveform(ofSoundBuffer *buffer, ofVec2f origin) {
@@ -304,24 +348,30 @@ ofPolyline ofApp::drawWaveform(ofSoundBuffer *buffer, ofVec2f origin) {
 
 ofPolyline ofApp::drawGrainPointer(int idx, float windowAmount) {
     
-    int rPos = floor(lastGrainStates[idx].loopPointer);
-    int wPos = lastGrainStates[0].writePointer;
-    float windowVal = lastGrainStates[idx].windowEnvelope;
-    
-    float lineHeight = bufferHeight*3-bufferHeight*3*((1-windowVal)*windowAmount);
-
-    float yT = bufferDisplayPos.y-lineHeight/2;
-    float yB = bufferDisplayPos.y+lineHeight/2;
-    
-
-//    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    int pos = (granConfig.delayBufferSize-(wPos-rPos))%granConfig.delayBufferSize;
-    float x = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    
     ofPolyline pointerLine;
     pointerLine.clear();
-    pointerLine.addVertex(x,yT);
-    pointerLine.addVertex(x, yB);
+    
+    if (lastGrainStates.size() > 0) {
+        int rPos = floor(lastGrainStates[idx].loopPointer);
+        int wPos = lastGrainStates[0].writePointer;
+        float windowVal = lastGrainStates[idx].windowEnvelope;
+        
+        float lineHeight = bufferHeight*3-bufferHeight*3*((1-windowVal)*windowAmount);
+
+        float yT = bufferDisplayPos.y-lineHeight/2;
+        float yB = bufferDisplayPos.y+lineHeight/2;
+        
+
+    //    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        int pos = (granConfig.delayBufferSize-(wPos-rPos))%granConfig.delayBufferSize;
+        float x = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        
+
+        pointerLine.addVertex(x,yT);
+        pointerLine.addVertex(x, yB);
+    }
+    
+
     
     return pointerLine;
 }
@@ -347,20 +397,25 @@ ofPolyline ofApp::drawWritePointer(float pos) {
 }
 
 ofBoxPrimitive ofApp::drawGrainBB(int idx) {
-    float pos = lastGrainStates[idx].loopPointer;
-    float windowVal = lastGrainStates[idx].windowEnvelope;
-    
-    float lineHeight = bufferHeight*3;
-    float boxWidth = 50;
-
-    float yT = bufferDisplayPos.y-lineHeight/2;
-    float yB = bufferDisplayPos.y+lineHeight/2;
-    
-
-    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    float xB = xT;
     
     ofBoxPrimitive box;
+    
+    if (lastGrainStates.size() > 0) {
+        float pos = lastGrainStates[idx].loopPointer;
+        float windowVal = lastGrainStates[idx].windowEnvelope;
+        
+        float lineHeight = bufferHeight*3;
+        float boxWidth = 50;
+        
+        float yT = bufferDisplayPos.y-lineHeight/2;
+        float yB = bufferDisplayPos.y+lineHeight/2;
+        
+        
+        float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        float xB = xT;
+    }
+    
+
 
      
     return box;
@@ -368,17 +423,20 @@ ofBoxPrimitive ofApp::drawGrainBB(int idx) {
 
 ofPolyline ofApp::drawBuffer(const float *buffer, int length, ofVec2f origin) {
     
-    int writeIdx = lastGrainStates[0].writePointer;
-    
     ofPolyline bufferGraphic;
     bufferGraphic.clear();
-    int div = 10;
-    for(size_t i = 0; i < length/div; i++) {
-        int idx = (i*div+writeIdx)%granConfig.delayBufferSize;
-        float sample = buffer[idx];
-        float y = origin.y-sample*bufferHeight;
-        float x = i*((float)div)/(float)length*bufferWidth+origin.x;
-        bufferGraphic.addVertex(x, y);
+    
+    if (lastGrainStates.size() > 0) {
+        int writeIdx = lastGrainStates[0].writePointer;
+        
+        int div = 10;
+        for(size_t i = 0; i < length/div; i++) {
+            int idx = (i*div+writeIdx)%granConfig.delayBufferSize;
+            float sample = buffer[idx];
+            float y = origin.y-sample*bufferHeight;
+            float x = i*((float)div)/(float)length*bufferWidth+origin.x;
+            bufferGraphic.addVertex(x, y);
+        }
     }
     
         
@@ -391,6 +449,9 @@ void ofApp::draw(){
     ofBackground(ofColor::black);
     ofSetColor(ofColor::white);
     
+
+    
+    
     // GUI
     gui.draw();
     globalCtrl.draw();
@@ -400,15 +461,25 @@ void ofApp::draw(){
     ofSetLineWidth(1);
     bufferDisplay.draw();
     ofSetLineWidth(3);
-    ofSetColor(ofColor(200,0,0, 128));
+
+    ofSetColor(100,100,255, 150);
     for (int i = 0; i < NUM_GRAINS; i++) {
         pointers[i].draw();
 //        grainBBs[i].draw();
     }
 
+    ofSetColor(255,0,0,150);
+    for (int i = 0; i < warpPoints.size(); i++) {
+        int writePtr = lastGrainStates[0].writePointer;
+        float idx = (float)warpPoints[i]+(granConfig.delayBufferSize-writePtr)%granConfig.delayBufferSize;
+        float x = (idx/(float)granConfig.delayBufferSize)*bufferWidth+bufferDisplayPos.x;
+        int boxHeight = 100;
+        ofDrawRectangle(x, bufferDisplayPos.y-boxHeight, 5, boxHeight);
+    }
+
 
 //    writePointer.draw();
-    ofSetColor(ofColor::white);
+
     ofDrawBitmapString("Window Type: Tukey (tapered cosine)", 500, 700);
     ofDrawBitmapString("Interpolation Method: Cubic Linear", 500, 725);
     
