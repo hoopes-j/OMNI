@@ -9,6 +9,7 @@
 #include "Processor.hpp"
 #include "gui/GrainSliders.hpp"
 #include "EnvelopeFollower.hpp"
+#include "AudioEngine.hpp"
 
 class ofApp : public ofBaseApp{
 
@@ -20,6 +21,7 @@ class ofApp : public ofBaseApp{
     
         void audioOut(ofSoundBuffer &outBuffer);
         void audioIn(ofSoundBuffer & input);
+        bool audioReady;
 
 		void keyPressed(int key) override;
 		void keyReleased(int key) override;
@@ -40,10 +42,18 @@ class ofApp : public ofBaseApp{
         float sampsToMs(int samps);
     
     
-        // graphics helpers
+        // ====== GUI =========
         ofPolyline drawWaveform(ofSoundBuffer * buffer, ofVec2f pos);
         ofPolyline drawBuffer(const float *buffer, int length, ofVec2f pos);
         void drawBuffer(ofSoundBuffer *buffer, ofVec2f pos);
+    
+        void drawGrainWindow(float * data, int length, std::string & type, int x, int y, int height);
+        JWindow currentWindow;
+    
+    
+        void changeAudioDevice();
+    
+        // ====== END GUI
     
     
         double wavePhase;
@@ -64,6 +74,7 @@ class ofApp : public ofBaseApp{
         Granular gran;
         GranularConfig granConfig;
         Processor processor;
+        PitchManager _pitchManager;
     
         // Test File
         MonoFilePlayer mockInput;
@@ -75,6 +86,8 @@ class ofApp : public ofBaseApp{
     
         // GUI
         ofxPanel gui;
+    
+        ofParameter<bool> delayModeOn;
         ofxIntSlider delayTime;
         ofxFloatSlider feedback;
         ofxFloatSlider wetDryKnob;
@@ -86,8 +99,6 @@ class ofApp : public ofBaseApp{
         ofxToggle follow;
         ofxIntSlider loopStart;
         ofxFloatSlider playbackSpeed;
-        ofxFloatSlider warpingAmount;
-//        std::vector<ofParameter<float> grainSpeeds;
     
         // Randomness
         ofxPanel randness;
@@ -96,9 +107,12 @@ class ofApp : public ofBaseApp{
     
         // IO
         ofxPanel ioPanel;
+
         ofParameter<string> options;//, options2;
         ofParameter<int> intOptions;
-        ofxToggle mockInputToggle;
+        ofParameter<bool> mockInputToggle;
+        ofParameter<bool> mute;
+        ofParameter<float> globalAmplitude;
     
         // Pitch;
         std::vector<ofxFloatSlider> grainSpeeds;
@@ -117,7 +131,7 @@ class ofApp : public ofBaseApp{
         int bufferHeight = 150;
         int bufferWidth = 1000;
         int bufferX = 0;
-        int bufferY = 1000;
+        int bufferY = 800;
         float * bufferMirror;
     
         std::vector<ofPolyline> pointers;
@@ -138,6 +152,9 @@ class ofApp : public ofBaseApp{
     
         ofParameterGroup mainGroup;
         GrainSliders gSliders;
+    
+    
+        AudioEngine audioEngine;
     
     
     

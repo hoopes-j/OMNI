@@ -40,6 +40,9 @@
 		"A4742F9B-C0BA-40D9-A2B0-BDA724193BED" /* Granular.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "1B10D037-89B4-42A9-9C1A-C55BBBB2599D" /* Granular.cpp */; };
 		AA4AE1402BAF58F500D15D2C /* EnvelopeFollower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE13E2BAF58F500D15D2C /* EnvelopeFollower.cpp */; };
 		AA4AE1462BAF60EF00D15D2C /* UnitTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA4AE1442BAF60EF00D15D2C /* UnitTests.cpp */; };
+		AA5FF99E2BBE2CF70013BC9C /* PitchManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA5FF99C2BBE2CF70013BC9C /* PitchManager.cpp */; };
+		AA8ACBE52BD00F3B007055B8 /* AudioEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8ACBE32BD00F3B007055B8 /* AudioEngine.cpp */; };
+		AA8ACBE82BD02406007055B8 /* LoudspeakerSpatializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AA8ACBE62BD02406007055B8 /* LoudspeakerSpatializer.cpp */; };
 		AAA686982B8F89230010E21A /* Spatializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA686962B8F89230010E21A /* Spatializer.cpp */; };
 		AAF1BC322BAA499F005EA5D9 /* GrainSliders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAF1BC302BAA499F005EA5D9 /* GrainSliders.cpp */; };
 		"B6EB79EB-EB65-40FD-A2E0-7FF3FC6B8DD9" /* ofxRtMidiOut.cpp in Sources */ = {isa = PBXBuildFile; fileRef = "78E3F4AF-D263-4C0C-8FB0-E8FD8B68AB34" /* ofxRtMidiOut.cpp */; };
@@ -142,6 +145,12 @@
 		AA4AE1442BAF60EF00D15D2C /* UnitTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UnitTests.cpp; sourceTree = "<group>"; };
 		AA4AE1452BAF60EF00D15D2C /* UnitTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UnitTests.hpp; sourceTree = "<group>"; };
 		AA4AE1482BAF617B00D15D2C /* EnvelopeFollowerTests.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = EnvelopeFollowerTests.hpp; path = EnvelopeFollowerTests/EnvelopeFollowerTests.hpp; sourceTree = "<group>"; };
+		AA5FF99C2BBE2CF70013BC9C /* PitchManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PitchManager.cpp; sourceTree = "<group>"; };
+		AA5FF99D2BBE2CF70013BC9C /* PitchManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = PitchManager.hpp; sourceTree = "<group>"; };
+		AA8ACBE32BD00F3B007055B8 /* AudioEngine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AudioEngine.cpp; sourceTree = "<group>"; };
+		AA8ACBE42BD00F3B007055B8 /* AudioEngine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = AudioEngine.hpp; sourceTree = "<group>"; };
+		AA8ACBE62BD02406007055B8 /* LoudspeakerSpatializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LoudspeakerSpatializer.cpp; sourceTree = "<group>"; };
+		AA8ACBE72BD02406007055B8 /* LoudspeakerSpatializer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = LoudspeakerSpatializer.hpp; sourceTree = "<group>"; };
 		AAA686962B8F89230010E21A /* Spatializer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Spatializer.cpp; path = Spatial/Spatializer.cpp; sourceTree = "<group>"; };
 		AAA686972B8F89230010E21A /* Spatializer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = Spatializer.hpp; path = Spatial/Spatializer.hpp; sourceTree = "<group>"; };
 		"AAADB988-9126-4535-801A-E7A48E1CFCC6" /* ofxFftw.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = ofxFftw.h; path = ../../../addons/ofxFft/src/ofxFftw.h; sourceTree = SOURCE_ROOT; };
@@ -313,6 +322,15 @@
 			path = UnitTests;
 			sourceTree = "<group>";
 		};
+		AA8ACBE92BD02410007055B8 /* Spatializer */ = {
+			isa = PBXGroup;
+			children = (
+				AA8ACBE62BD02406007055B8 /* LoudspeakerSpatializer.cpp */,
+				AA8ACBE72BD02406007055B8 /* LoudspeakerSpatializer.hpp */,
+			);
+			path = Spatializer;
+			sourceTree = "<group>";
+		};
 		"B85A78D4-2B34-4DAD-907B-62A7FD6C70DB" /* ofxMidi */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,6 +473,11 @@
 				AAF1BC302BAA499F005EA5D9 /* GrainSliders.cpp */,
 				AAF1BC312BAA499F005EA5D9 /* GrainSliders.hpp */,
 				AA4AE1412BAF590300D15D2C /* EnvelopeFollower */,
+				AA5FF99C2BBE2CF70013BC9C /* PitchManager.cpp */,
+				AA5FF99D2BBE2CF70013BC9C /* PitchManager.hpp */,
+				AA8ACBE32BD00F3B007055B8 /* AudioEngine.cpp */,
+				AA8ACBE42BD00F3B007055B8 /* AudioEngine.hpp */,
+				AA8ACBE92BD02410007055B8 /* Spatializer */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -595,9 +618,12 @@
 				"5B70E1F8-FF72-4FD4-B153-11FF6F2DD5E0" /* AudioFileUtilities.cpp in Sources */,
 				"56F36B86-1C4D-4E84-BA76-CDB66719AF99" /* FFT.cpp in Sources */,
 				"A4742F9B-C0BA-40D9-A2B0-BDA724193BED" /* Granular.cpp in Sources */,
+				AA8ACBE82BD02406007055B8 /* LoudspeakerSpatializer.cpp in Sources */,
 				"38AA1587-84F6-4FDE-88A3-AF32F3159947" /* MonoFilePlayer.cpp in Sources */,
 				"807704C5-0211-4068-9E32-052F200439C0" /* Processor.cpp in Sources */,
 				"25841E43-F152-48DD-B60E-E7B2B583125E" /* sample.mp3 in Sources */,
+				AA5FF99E2BBE2CF70013BC9C /* PitchManager.cpp in Sources */,
+				AA8ACBE52BD00F3B007055B8 /* AudioEngine.cpp in Sources */,
 				AAA686982B8F89230010E21A /* Spatializer.cpp in Sources */,
 				"05D9698B-D681-4A93-9461-A33CB4A94BF5" /* sample.mp3.asd in Sources */,
 				"D150EADE-1383-4370-A32F-942DC4CA0DBD" /* sample.wav.asd in Sources */,

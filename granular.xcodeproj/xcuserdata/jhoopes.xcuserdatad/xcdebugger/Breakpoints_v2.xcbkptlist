@@ -190,8 +190,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "430"
-            endingLineNumber = "430"
+            startingLineNumber = "473"
+            endingLineNumber = "473"
             landmarkName = "ofApp::drawBuffer(buffer, length, origin)"
             landmarkType = "7">
             <Locations>
@@ -238,8 +238,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "ofApp::setup()"
             landmarkType = "7">
          </BreakpointContent>
@@ -254,8 +254,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "299"
-            endingLineNumber = "299"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "ofApp::update()"
             landmarkType = "7">
             <Locations>
@@ -302,8 +302,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
+            startingLineNumber = "346"
+            endingLineNumber = "346"
             landmarkName = "ofApp::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
+            startingLineNumber = "347"
+            endingLineNumber = "347"
             landmarkName = "ofApp::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,8 +334,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "305"
-            endingLineNumber = "305"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
             landmarkName = "ofApp::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,8 +350,8 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "ofApp::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -398,25 +398,9 @@
             filePath = "src/Granular.hpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "addTransient(location)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "28633520-53B8-445B-803C-75FD80CD6804"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/ofApp.cpp"
-            startingColumnNumber = "14"
-            endingColumnNumber = "14"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "ofApp::audioOut(outBuffer)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -430,9 +414,1153 @@
             filePath = "src/ofApp.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
+            startingLineNumber = "516"
+            endingLineNumber = "516"
             landmarkName = "ofApp::draw()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3D800CEB-09B8-4B43-A2A8-36DBA5A388F9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "234"
+            endingLineNumber = "234"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "45BCF24A-EF34-4E17-8812-66B96728919F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F554FF5D-8F9B-4103-A213-CC4CFC723AE0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F554FF5D-8F9B-4103-A213-CC4CFC723AE0 - 94cf05955da0efe4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "186"
+                  endingLineNumber = "186"
+                  offsetFromSymbolStart = "1080">
+               </Location>
+               <Location
+                  uuid = "F554FF5D-8F9B-4103-A213-CC4CFC723AE0 - 94cf05955da0ef39"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "181"
+                  endingLineNumber = "181"
+                  offsetFromSymbolStart = "1052">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BFDF203-EB4E-4986-A4B9-C18676D0B2B4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "ofApp::msToSamps(ms)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "86310447-BC9B-4E4E-AD8D-C84B3B34A7FF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "86310447-BC9B-4E4E-AD8D-C84B3B34A7FF - faba2ffd83ae1c41"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granular"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "86310447-BC9B-4E4E-AD8D-C84B3B34A7FF - 94cf05955da0e175"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "105"
+                  endingLineNumber = "105"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D2B865A7-78E8-4CBA-85F3-18707B5AAEE3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "171"
+            endingLineNumber = "171"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D2B865A7-78E8-4CBA-85F3-18707B5AAEE3 - faba2ffd83ae1c03"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granular"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  uuid = "D2B865A7-78E8-4CBA-85F3-18707B5AAEE3 - 94cf05955da0e137"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "68D2813D-5FC7-49FA-A4C6-1BA24C7A9FBE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "Granular::processGrain(index)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "68D2813D-5FC7-49FA-A4C6-1BA24C7A9FBE - 94cf05955da0efe4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "186"
+                  endingLineNumber = "186"
+                  offsetFromSymbolStart = "1080">
+               </Location>
+               <Location
+                  uuid = "68D2813D-5FC7-49FA-A4C6-1BA24C7A9FBE - 94cf05955da0eefb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "179"
+                  endingLineNumber = "179"
+                  offsetFromSymbolStart = "988">
+               </Location>
+               <Location
+                  uuid = "68D2813D-5FC7-49FA-A4C6-1BA24C7A9FBE - 94cf05955da0eedc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::processGrain(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "178"
+                  endingLineNumber = "178"
+                  offsetFromSymbolStart = "1040">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F655392E-7CC1-4FC1-9C7F-6C6CBB230071"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/PitchManager.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "setup()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F655392E-7CC1-4FC1-9C7F-6C6CBB230071 - 86e5cc6f5f36c355"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::PitchManager()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "53"
+                  endingLineNumber = "53"
+                  offsetFromSymbolStart = "40">
+               </Location>
+               <Location
+                  uuid = "F655392E-7CC1-4FC1-9C7F-6C6CBB230071 - 7d03fd86958e6b16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::setup()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "304">
+               </Location>
+               <Location
+                  uuid = "F655392E-7CC1-4FC1-9C7F-6C6CBB230071 - 7d03fd86958e6b16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::setup()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "312">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EA0A3FE2-7E62-4243-8CC7-8AA25886FDFB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/PitchManager.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "setup()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "EA0A3FE2-7E62-4243-8CC7-8AA25886FDFB - 7d03fd86958e6bdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::setup()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "272">
+               </Location>
+               <Location
+                  uuid = "EA0A3FE2-7E62-4243-8CC7-8AA25886FDFB - 7d03fd86958e6bdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::setup()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "37"
+                  endingLineNumber = "37"
+                  offsetFromSymbolStart = "280">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "38B57393-1A84-47C2-87B1-C97DE63B3DAE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/PitchManager.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "generate(n)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "38B57393-1A84-47C2-87B1-C97DE63B3DAE - 937a32cbb2e93071"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::generate(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "272">
+               </Location>
+               <Location
+                  uuid = "38B57393-1A84-47C2-87B1-C97DE63B3DAE - 937a32cbb2e93071"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::generate(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "276">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F16C9C7A-D3CD-4007-A331-4C533B8483B3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/PitchManager.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "generate(n)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F16C9C7A-D3CD-4007-A331-4C533B8483B3 - 937a32cbb2e92fdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::generate(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "176">
+               </Location>
+               <Location
+                  uuid = "F16C9C7A-D3CD-4007-A331-4C533B8483B3 - 937a32cbb2e92fdc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PitchManager::generate(int)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/PitchManager.hpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "180">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "64644E36-71D1-4F0D-BB5F-DC15C03EE5BB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "addTransient(location)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2DADD42F-04E2-4708-93F1-A78B72A59A7D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.hpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "addTransient(location)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8C80DF4B-7495-4595-81E1-89ABC20EDC8F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Granular.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "153"
+            endingLineNumber = "153"
+            landmarkName = "Granular::process(input)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "8C80DF4B-7495-4595-81E1-89ABC20EDC8F - ea2a5cdbbd2ae0cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::process(float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "138"
+                  endingLineNumber = "138"
+                  offsetFromSymbolStart = "604">
+               </Location>
+               <Location
+                  uuid = "8C80DF4B-7495-4595-81E1-89ABC20EDC8F - ea2a5cdbbd2ae02e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::process(float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "135"
+                  endingLineNumber = "135"
+                  offsetFromSymbolStart = "548">
+               </Location>
+               <Location
+                  uuid = "8C80DF4B-7495-4595-81E1-89ABC20EDC8F - ea2a5cdbbd2aeedc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Granular::process(float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Granular.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "153"
+                  endingLineNumber = "153"
+                  offsetFromSymbolStart = "548">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "54BFE322-F7F0-48B5-A7EB-06EE796447DC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "ofApp::audioOut(outBuffer)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9ABE1451-E44E-420D-85CD-91BFC1FCD7A9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "194"
+            endingLineNumber = "194"
+            landmarkName = "ofApp::setup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74D1E168-EB2E-4BCC-B408-C2F1F3EDFFE7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "294"
+            endingLineNumber = "294"
+            landmarkName = "ofApp::update()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C0930378-1E00-43DC-A4E2-A97E85017A52"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
+            landmarkName = "ofApp::audioIn(input)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "356F13D5-6A5E-4995-949A-13EDF927024F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "169"
+            endingLineNumber = "169"
+            landmarkName = "ofApp::setup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C4A910F9-F65E-41A2-A51F-964AA036CD85"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
+            landmarkName = "ofApp::audioOut(outBuffer)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CF895B60-1FCA-44E3-AC8E-53EB1EF2E2ED"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/AudioEngine.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "AudioEngine::process()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D8E66D23-B46F-415C-BF42-D60E1F91B0B9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/AudioEngine.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "AudioEngine::process()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D8E66D23-B46F-415C-BF42-D60E1F91B0B9 - f81e0862e237b848"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AudioEngine::process()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/AudioEngine.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "D8E66D23-B46F-415C-BF42-D60E1F91B0B9 - f81e0862e237b848"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AudioEngine::process()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/AudioEngine.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "46"
+                  endingLineNumber = "46"
+                  offsetFromSymbolStart = "128">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F2A84916-5CC4-4FEE-9B67-265D1BDEBC68"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/AudioEngine.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "AudioEngine::process()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "EC7052FF-182F-4BF9-B66A-C3B9D35D57BE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/ofApp.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "ofApp::audioOut(outBuffer)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D7428825-964B-40A2-AFEE-C09EC380B41C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D7428825-964B-40A2-AFEE-C09EC380B41C - f597216c21de2c23"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "456">
+               </Location>
+               <Location
+                  uuid = "D7428825-964B-40A2-AFEE-C09EC380B41C - f597216c21de2c23"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "49"
+                  endingLineNumber = "49"
+                  offsetFromSymbolStart = "424">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "196C5201-CDEA-40FF-9A9C-D11967D89A58"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "196C5201-CDEA-40FF-9A9C-D11967D89A58 - f597216c21de2e72"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "152">
+               </Location>
+               <Location
+                  uuid = "196C5201-CDEA-40FF-9A9C-D11967D89A58 - f597216c21de2e51"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "204">
+               </Location>
+               <Location
+                  uuid = "196C5201-CDEA-40FF-9A9C-D11967D89A58 - f597216c21de2e72"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "164">
+               </Location>
+               <Location
+                  uuid = "196C5201-CDEA-40FF-9A9C-D11967D89A58 - f597216c21de2e72"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "32"
+                  endingLineNumber = "32"
+                  offsetFromSymbolStart = "188">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "771541DE-7371-4AEA-9604-2D9208D3D184"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "771541DE-7371-4AEA-9604-2D9208D3D184 - f597216c21de2e13"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "156">
+               </Location>
+               <Location
+                  uuid = "771541DE-7371-4AEA-9604-2D9208D3D184 - f597216c21de2e13"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "224">
+               </Location>
+               <Location
+                  uuid = "771541DE-7371-4AEA-9604-2D9208D3D184 - f597216c21de2e34"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "771541DE-7371-4AEA-9604-2D9208D3D184 - f597216c21de2e34"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "212">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E719C66-AA16-43D8-AF1E-90A42908FC42"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2E719C66-AA16-43D8-AF1E-90A42908FC42 - f597216c21de2ced"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "320">
+               </Location>
+               <Location
+                  uuid = "2E719C66-AA16-43D8-AF1E-90A42908FC42 - f597216c21de2ccc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "42"
+                  endingLineNumber = "42"
+                  offsetFromSymbolStart = "320">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5B6DD60C-3372-4B36-AAD8-84D8ADFB53D2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "5B6DD60C-3372-4B36-AAD8-84D8ADFB53D2 - 26aaa9f1008a83dc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::clearOutput()"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "5B6DD60C-3372-4B36-AAD8-84D8ADFB53D2 - f597216c21de2f2b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "316">
+               </Location>
+               <Location
+                  uuid = "5B6DD60C-3372-4B36-AAD8-84D8ADFB53D2 - f597216c21de2c8e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LoudspeakerSpatializer::processAndStore(float, float)"
+                  moduleName = "granularDebug"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/Spatializer/LoudspeakerSpatializer.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "352">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2206C097-316B-44FC-A84D-FAC1412725C6"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/AudioEngine.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "AudioEngine::setup(sampleRate, numAudioFrames, numInputChannels, numOutputChannels, granularConfig)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4EBE058A-FFD7-4EED-9F04-40F95475C935"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD93D43E-3748-4AC6-A0CE-6D13E9AD99B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B534432E-3D48-45EB-9AF0-FBA3725A9DE4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D72CD8F6-78E0-45D9-88DC-81C27ACB4CAB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Spatializer/LoudspeakerSpatializer.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "LoudspeakerSpatializer::processAndStore(input, angle)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

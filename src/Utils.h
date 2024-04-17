@@ -29,12 +29,15 @@ public:
 
     JWindow(){
         this->_resolution=512;
+        this->_buf.resize(this->_resolution);
         this->_raisedCosine.resize(this->_resolution);
         float size = this->_raisedCosine.size();
         for(int n=0; n<size; n++)
             this->_raisedCosine[n] = -( 1-cosf( 2*M_PI*n/(size-1)) ) / 2.0;
         
         this->_tukey.resize(this->_resolution);
+        
+        this->name = "raised cosine";
         
         const double alpha = 0.4; // Change this value to adjust the shape of the window
         for (int n = 0; n < size; ++n) {
@@ -48,14 +51,10 @@ public:
             else {
                 _tukey[n] = _tukey[_resolution-n];
             }
-//            double x = (2.0 * i) / (size - 1) - 1.0;
-//            if (x < -alpha / 2.0) {
-//                _tukey[i] = 0.5 * (1.0 + std::cos(M_PI * (2.0 * x / alpha + 1.0)));
-//            } else if (x <= alpha / 2.0) {
-//                _tukey[i] = 1.0;
-//            } else {
-//                _tukey[i] = 0.5 * (1.0 + std::cos(M_PI * (2.0 * x / alpha - 1.0)));
-//            }
+        }
+        
+        if (this->name == "raised cosine") {
+            this->_buf = this->_raisedCosine;
         }
     };
     ~JWindow(){};
@@ -76,10 +75,13 @@ public:
 //        }
 
     }
-private:
+    
+    
     float _resolution;
     std::vector<float> _raisedCosine;
     std::vector<float> _tukey;
+    std::vector<float> _buf;
+    std::string name;
 };
 
 
