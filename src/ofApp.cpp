@@ -191,6 +191,12 @@ void ofApp::setup(){
         exit();
     }
     
+  // OSC ===========
+    if (!oscClient.setup(5000)) {
+        std::cerr << "Unable to setup Osc Client" << std::endl;
+        exit();
+    }
+    
     audioReady = true;
 }
 
@@ -287,6 +293,40 @@ void ofApp::update(){
         changeAudioDevice();
     }
     
+    
+    while (oscClient.hasWaitingMessages()) {
+        ofxOscMessage msg;
+        oscClient.getNextMessage(&msg);
+        
+        std::cout << msg.getAddress() << std::endl;
+        
+        std::string addr = msg.getAddress();
+        std::string prefix = addr.substr(1, 8);
+        std::string suffix = addr.substr(10,addr.length()-9);
+        
+        if (prefix == "granular") {
+
+            
+            if (suffix=="global_amplitude") {
+                float val = msg.getArgAsInt(0)/(float)127;
+                ofParameter<float> * ref = &globalAmplitude;
+                ref[0] = val*globalAmplitude.getMax();
+            }else if (suffix=="grain_pitch") {
+                float grainIdx = msg.getArgAsInt(1);
+                float value = msg.getArgAsFloat(0);
+                std::cout << grainIdx << "  --- " << value << std::endl;
+            }else if (suffix=="global_pitch") {
+                float value = msg.getArgAsFloat(0)/(float)127;
+                ofParameter<float> * ref = &gSliders.pitchMultiplier;
+                ref[0] = value*(ref->getMax()-ref->getMin())+ref->getMin();
+            }
+
+
+
+        }
+        
+    }
+    
 
     // "lastBuffer" is shared between update() and audioOut(), which are called
     // on two different threads. This lock makes sure we don't use lastBuffer
@@ -295,7 +335,6 @@ void ofApp::update(){
     
     
     useMockInput = mockInputToggle;
-    std::cout << useMockInput << std::endl;
     
 
     if (delayModeOn) {

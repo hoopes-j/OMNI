@@ -93,17 +93,12 @@ public:
     ~Granular(){
         delete[] _delayBuffer;
     };
-//    bool setup(int maxDelayLength, int delayTime, int sampleRate);
+
+    
     bool setup(GranularConfig granConfig);
-    bool updateConfig(GranularConfig granConfig); 
-    float processDelay(float input);
-    
-    void updateBuffer(float value);
-    
+    bool updateConfig(GranularConfig granConfig);
     
 
-
-    
     /**
         Processes the next sample, and returns the output of each grain in each respective index in output.
         grainOutputs should be a pointer with length = numGrains.
@@ -114,11 +109,9 @@ public:
         Writes the input sample to the circular buffer, processes each grain, and returns the sum of their outputs.
      */
     float process(float input);
-    
-    float processGrain(int index);
-    
-    float processLoop();
-    void processGrains(float * output);
+    float processGrains();
+    float processGrains(float * output);
+
     
     const float * getBuffer();
     
@@ -146,7 +139,9 @@ public:
     
     
 private:
+    void updateBuffer(float value);
     void processSetup(float input);
+    float processGrain(int index);
     
 
 };

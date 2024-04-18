@@ -10,6 +10,10 @@
 #include "gui/GrainSliders.hpp"
 #include "EnvelopeFollower.hpp"
 #include "AudioEngine.hpp"
+#include "ofxOsc.h"
+#include "WaveformDisplay.hpp"
+
+#define OSC_PORT 5000
 
 class ofApp : public ofBaseApp{
 
@@ -145,9 +149,6 @@ class ofApp : public ofBaseApp{
         JWindow grainWindow;
     
     
-        // Video
-        ofVideoPlayer videoPlayer;
-        ofTexture videoTexture;
     
     
         ofParameterGroup mainGroup;
@@ -160,9 +161,11 @@ class ofApp : public ofBaseApp{
     
     
 
-    
         bool stopAudio;
-            
+    
+        ofxOscReceiver oscClient;
+    
+    
+        
 
-		
 };

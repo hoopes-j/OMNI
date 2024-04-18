@@ -55,6 +55,7 @@ protected:
     Granular granulator;
     LoudspeakerSpatializer loudspeakerSpatializer;
     
+    std::vector<float> granularOutput;
     
 
 };
