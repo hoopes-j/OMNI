@@ -33,6 +33,7 @@ bool AudioEngine::setup(int sampleRate, int numAudioFrames, int numInputChannels
         std::cerr << "[AudioEngine] Unable to setup granular instance" << std::endl;
         return false;
     }
+    granularOutput.resize(granularConfig.numGrains);
     
     // ====== Spatializer
 #if SPATIALIZER == LOUDSPEAKER
@@ -55,17 +56,17 @@ void AudioEngine::process()
 {
     for (int frame = 0; frame < _numAudioFrames; frame++) {
         // Assume mono input for now
-        float in = this->getInput(frame, 0);
+        float input = this->getInput(frame, 0);
         
         float out = 0;
-        out = granulator.process(in);
+        granulator.processEach(input, granularOutput.data());
         
         loudspeakerSpatializer.clearOutput();
         loudspeakerSpatializer.processAndStore(out, 0);
         
         for (int channel = 0; channel < _numOutputChannels; channel++) {
             float spatialized = loudspeakerSpatializer.getSampleAtChannel(channel);
-            this->setOutput(out, frame, channel);
+            this->setOutput(granularOutput[channel]+granularOutput[channel+2], frame, channel);
         }
     }
 }

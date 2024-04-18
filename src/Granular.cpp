@@ -56,21 +56,6 @@ bool Granular::distributePitch(std::vector<float> pitches) {
 
 
 
-
-float Granular::processDelay(float input) {
-//    float spray = ofRandomf()*10-5;
-    float spray = 0;
-    int readIndex = _state.readPointer+spray;
-    
-    float out = _delayBuffer[readIndex];
-    _state.readPointer = (_state.readPointer + 1) % _config.delayBufferSize;
-    /* if (!this->_config.loopOn) */ {
-        this->updateBuffer(input+(out*this->_config.feedback));
-    }
-    return out;
-}
-
-
 void Granular::updateBuffer(float value) {
     _delayBuffer[_particles[0].writePointer] = value;
     
@@ -83,7 +68,7 @@ void Granular::updateBuffer(float value) {
     
     // detect transients
     if (_envFollower.detect(value)) {
-        std::cout << "transient detected!! " << std::endl;
+//        std::cout << "transient detected!! " << std::endl;
         this->addTransient(_particles[0].writePointer-2205); // Subtract 2205 to compensate for the fact that transient will happen at the end of each 5ms block IE, the transient actually started 5 milliseconds ago when it is detected
     }
     
@@ -113,7 +98,7 @@ void Granular::processSetup(float input) {
     
     // detect transients
     if (_envFollower.detect(input)) {
-        std::cout << "transient detected!! " << std::endl;
+//        std::cout << "transient detected!! " << std::endl;
         this->addTransient(_particles[0].writePointer-2205); // Subtract 2205 to compensate for the fact that transient will happen at the end of each 5ms block IE, the transient actually started 5 milliseconds ago when it is detected
     }
 }
@@ -121,23 +106,10 @@ void Granular::processSetup(float input) {
 
 float Granular::process(float input) {
     
-    _delayBuffer[_particles[0].writePointer] = input;
-    
-    // clear table of existing transients
-    for (int i = 0; i < transientPositions.size(); i++) {
-        if (_particles[0].writePointer == transientPositions[i]) {
-            transientPositions.erase(transientPositions.begin()+i);
-        }
-    }
-    
-    // detect transients
-    if (_envFollower.detect(input)) {
-        std::cout << "transient detected!! " << std::endl;
-        this->addTransient(_particles[0].writePointer-2205); // Subtract 2205 to compensate for the fact that transient will happen at the end of each 5ms block IE, the transient actually started 5 milliseconds ago when it is detected
-    }
+    this->processSetup(input);
     
 
-    float out = this->processLoop();
+    float out = this->processGrains();
     
     // ==== Feedback
     if (_config.feedback > 0.f) {
@@ -156,11 +128,40 @@ float Granular::process(float input) {
             
             
     for (int i = 0; i < _config.numGrains; i++) {
-        // Should not have seperate write pointer per grain
+        // TODO: Should not have seperate write pointer per grain
         _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
     }
     
     return out;
+}
+
+void Granular::processEach(float input, float * output) {
+    
+    this->processSetup(input);
+    
+    float out = this->processGrains(output);
+    
+    // ==== Feedback
+    if (_config.feedback > 0.f) {
+        float safeFeedback;
+        float threshold = 0.9;
+        if (_config.feedback>threshold) {
+            safeFeedback = threshold;
+        } else if (_config.feedback<0.f) {
+            safeFeedback = 0.f;
+        } else {
+            safeFeedback = _config.feedback;
+        }
+        _delayBuffer[_particles[0].writePointer] += out*safeFeedback;
+    }
+    // ====
+            
+            
+    for (int i = 0; i < _config.numGrains; i++) {
+        // TODO: Should not have seperate write pointer per grain
+        _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
+    }
+    
 }
 
 
@@ -229,7 +230,7 @@ float Granular::processGrain(int index) {
                     
                     
                     // Make sure chosen transient is always the most recent one
-                    int closest = 10000000000000;
+                    int closest = 1316134912; // Maximum int value
                     int maxIdx = 0;
                     for (int i = 0; i < transientPositions.size(); i++) {
                         float dist = state->writePointer - transientPositions[i];
@@ -275,7 +276,7 @@ float Granular::processGrain(int index) {
 }
 
 
-float Granular::processLoop() {
+float Granular::processGrains() {
     float out = 0;
     for (int i = 0; i < _config.numGrains; i++) {
         if (_particles[i].active) {
@@ -285,12 +286,15 @@ float Granular::processLoop() {
     return out;
 }
 
-void Granular::processGrains(float * output) {
+float Granular::processGrains(float * output) {
+    float out = 0;
     for (int i = 0; i < _config.numGrains; i++) {
         if (_particles[i].active) {
             output[i] = processGrain(i);
+            out += output[i];
         }
     }
+    return out;
 }
 
 const float * Granular::getBuffer() {
