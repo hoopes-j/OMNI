@@ -3,11 +3,10 @@
 #include "Granular.hpp"
 #include "MonoFilePlayer.h"
 #include <mutex>
+#include "UnitTests/UnitTests.hpp"
 
-
-#define MOCK_INPUT
-#define NUM_GRAINS 16
-
+#define NUM_GRAINS 8
+#define RUN_UNIT_TESTS
 
 
 
@@ -21,26 +20,33 @@ float ofApp::sampsToMs(int samps) {
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    this->audioReady = false;
     
-
+    
     this->stopAudio = false;
+    
+#ifdef RUN_UNIT_TESTS
+    UnitTests tests;
+    tests.runAll();
+#endif
+    
     
     
     
     // Load wave file
-    if (!this->mockInput.setup("/Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/sample[piano].wav", true, true)) {
+    if (!this->mockInput.setup("/Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/sample[voice].wav", true, true)) {
         std::cerr << "sample not found" << std::endl;
     }
     this->mockInput.trigger();
     
     
     
-
+    
     ofSetVerticalSync(true);
     
     
     soundStream.printDeviceList();
-
+    
     
     // start the sound stream with a sample rate of 44100 Hz, and a buffer
     // size of 512 samples per audioOut() call
@@ -58,47 +64,100 @@ void ofApp::setup(){
     
     inputBuffer = (float *) malloc(sizeof(float)*settings.bufferSize);
     
-
+    
     granConfig.sampleRate = soundStream.getSampleRate();
     granConfig.delayTime = msToSamps(1000);
     granConfig.delayBufferSize = msToSamps(10000);
     granConfig.numGrains = NUM_GRAINS;
-        
+    
     if (!gran.setup(granConfig)) {
         std::cerr << "Unable to setup granular instance" << std::endl;
-//        return false;
+        //        return false;
     }
     
     if (!processor.setup(settings.bufferSize)) {
         std::cout << "Unable to setup processor instance" << std::endl;
-//        return false;
+        //        return false;
     }
     
-    // GUI
-    gui.setup("delay");
-    gui.add(delayTime.setup("delay time", this->sampsToMs(granConfig.delayTime), 0, this->sampsToMs(granConfig.delayBufferSize)));
-    gui.add(feedback.setup("feedback", 0.1, 0.0, 0.8));
+    // ================== Audio
     
-    globalCtrl.setup("global", "settings.xml", 0, 200);
-    gui.add(wetDryKnob.setup("wet/dry", 0.5, 0.0, 1.0));
-    globalCtrl.add(loopToggle.setup("loop"));
-    globalCtrl.add(loopLength.setup("loop length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
-    globalCtrl.add(follow.setup("follow"));
-    globalCtrl.add(loopStart.setup("loop start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
-    globalCtrl.add(playbackSpeed.setup("speed", 1.0, -2.0, 2.0));
+    if (!audioEngine.setup(
+                           settings.sampleRate,
+                           settings.bufferSize,
+                           settings.numInputChannels,
+                           settings.numOutputChannels,
+                           granConfig)
+    ) {
+        std::cout << "FATAL===========" << std::endl;
+        std::cout << "Audio Engine Setup Failed!" << std::endl;
+        std::cout << "================" << std::endl;
+    }
+    
+    
+    
+    
+    
+    
+    
+    // ================== GUI
+    int nCols = 4;
+    int colWidth = 200;
+    int pX = 10;
+    std::vector<int> cols(nCols);
+    for (int i=0;i<nCols;i++) {
+        cols[i] = i*(colWidth+pX);
+    }
+    globalCtrl.setup("global", "settings.xml", cols[0], 0);
+    randness.setup("Randomness", "settings.xml", cols[1], 0);
+    gui.setup("delay", "settings.xml", cols[2], 0);
+    ioPanel.setup("I/O", "settings.xml", cols[3], 0);
+    // Groups
+    gSliders.setup(NUM_GRAINS);
+
 
     
-    randness.setup("Randomness", "settings.xml", 0, 500);
+    
+    
+    gui.add(delayModeOn.set("delaymode[follow]",false));
+    gui.add(delayTime.setup("delay time", this->sampsToMs(granConfig.delayTime), 0, this->sampsToMs(granConfig.delayBufferSize)));
+    gui.add(feedback.setup("feedback", 0.1, 0.0, 0.9));
+    gui.add(wetDryKnob.setup("wet/dry", 0.5, 0.0, 1.0));
+    
+    globalCtrl.add(loopToggle.setup("loop"));
+    globalCtrl.add(loopLength.setup("loop length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    globalCtrl.add(follow.setup("follow", false));
+    globalCtrl.add(loopStart.setup("loop start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    globalCtrl.add(playbackSpeed.setup("speed", 1.0, -2.0, 2.0));
+    globalCtrl.add(gSliders.params);
+    globalCtrl.add(gSliders.warpGroup);
+    globalCtrl.add(gSliders.windowDropdown.get());
+    
+
+   
+
+
+//    grainSpeeds.resize(granConfig.numGrains);
+//    for (int i = 0; i < granConfig.numGrains; i++) {
+//        globalCtrl.add(grainSpeeds[i].setup("Grain i", 1.0, -2.0, 2.0));
+//    }
+
+    
+
     randness.add(startRandomness.setup("start", 0.0, 0.0, 1.0));
     randness.add(lengthRandomness.setup("length", 0.0, 0.0, 1.0));
+    
+    
     
     
     
     std::vector<ofSoundDevice> devices = soundStream.getDeviceList();
 
     //IO Panel
-    ioPanel.setup("I/O");
-    ioPanel.add(mockInputToggle.setup("mock input"));
+
+    ioPanel.add(mute.set("mute", true));
+    ioPanel.add(globalAmplitude.set("global amplitude", 0.0, 0.0, 5.0));
+    ioPanel.add(mockInputToggle.set("mock input", true));
     outputDropdown =  make_unique<ofxDropdown>("Output Device");
     for (int i = 0; i < devices.size(); i++) {
         ofSoundDevice device = devices[i];
@@ -127,6 +186,18 @@ void ofApp::setup(){
     this->grainBBs.resize(NUM_GRAINS);
     
     
+    if (!_pitchManager.setup()) {
+        std::cerr << "Unable to setup Pitch Manager" << std::endl;
+        exit();
+    }
+    
+  // OSC ===========
+    if (!oscClient.setup(5000)) {
+        std::cerr << "Unable to setup Osc Client" << std::endl;
+        exit();
+    }
+    
+    audioReady = true;
 }
 
 void ofApp::audioOut(ofSoundBuffer &outBuffer) {
@@ -134,111 +205,126 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
 //    std::lock_guard<std::mutex> guard(granConfigMutex);
     gran.updateConfig(granConfig);
     
-    std::vector<float> tmpBuf;
-    std::vector<float> tmpBuf2;
-    tmpBuf.resize(outBuffer.getNumFrames());
-    tmpBuf2.resize(outBuffer.getNumFrames());
-
-
-    for(size_t i = 0; i < outBuffer.getNumFrames(); i++) {
-        
-        
-        float in = 0;
-#ifdef MOCK_INPUT
-        in = this->mockInput.process();
-#else
-//        in = inputBuffer[i];
-        in = lastInputBuffer[i];
-#endif
-
-        gran.updateBuffer(in);
-        float wet = 0;
-        if (granConfig.loopOn) {
-            wet = gran.processLoop();
-        }
-        float dry = in;
-        
-        
-        // write the computed sample to the left and right channels
-        tmpBuf[i] = wet;
-        tmpBuf2[i] = wet;
-        outBuffer.getSample(i,0) = wet;
-        outBuffer.getSample(i,1) = dry;
-//        outBuffer.getSample(i,0) = wet;
-//        outBuffer.getSample(i,1) = wet;
+    audioEngine.updateConfig(granConfig);
+    audioEngine.process();
+    
+    for (uint frame = 0; frame < audioEngine.framesPerBlock(); frame++) {
+        float dry = audioEngine.getInput(frame, 0);
+        for (uint channel = 0; channel < audioEngine.numOutputChannels(); channel++) {
+            float wet = audioEngine.getOutput(frame, channel);
+            float out = wet*wetDryKnob+dry*(1-wetDryKnob);
+            if (!mute) {
+                outBuffer.getSample(frame,channel) = out*globalAmplitude;
+            }
+        }        
     }
     
-    std::vector<float> processedBuf = processor.processKiss(tmpBuf2.data());
-    
-    for (int i = 0; i < 512; i++) {
-//        outBuffer.getSample(i,0) = processedBuf[i];
-//        outBuffer.getSample(i,1) = processedBuf[i];
-//        outBuffer.getSample(i,0) = tmpBuf[i];
-//        outBuffer.getSample(i,1) = tmpBuf[i];
-    }
-    
-//    outBuffer.copyFrom(processedBuf.data(), processedBuf.size()*sizeof(float),1,44100);
-    
+
     unique_lock<mutex> lock(audioMutex);
     lastGrainStates = gran.getStates();
     lastBuffer = outBuffer;
 }
-
+int globalFrame = 0;
 void ofApp::audioIn(ofSoundBuffer & input){
     
+   
+    globalFrame++;
     for (int frame = 0; frame < input.getNumFrames(); frame++) {
+
+        // Assume Mono Input
+        float in = 0;
+        if (this->useMockInput == 1) {
+            in = this->mockInput.process();
+        } else {
+            in = input[frame];
+        }
+        audioEngine.setInput(in, frame, 0);
         inputBuffer[frame] = input[frame];
-//        gran.writeFrame(input[frame]);
     }
     unique_lock<mutex> lock(audioMutex);
-    
-
     lastInputBuffer = input;
+}
 
+
+void ofApp::changeAudioDevice() {
+    soundStream.stop();
+    
+    ofSoundStream streamNew;
+    soundStream = streamNew;
+    auto deviceList = soundStream.getDeviceList();
+    for (int i = 0; i < deviceList.size(); i++) {
+        if (deviceList[i].name == this->currentOutput) {
+            const ofSoundDevice outDevice = deviceList[i];
+            ofSoundStreamSettings settings;
+            settings.numOutputChannels = 2;
+            settings.numInputChannels = 1;
+            settings.sampleRate = 44100;
+            settings.bufferSize = 512;
+            settings.numBuffers = 4;
+            settings.setOutListener(this);
+            settings.setInListener(this);
+            settings.setOutDevice(outDevice);
+            soundStream.setup(settings);
+        }
+        if (deviceList[i].name == this->currentInput) {
+            const ofSoundDevice inDevice = deviceList[i];
+            ofSoundStreamSettings settings;
+            settings.numOutputChannels = 2;
+            settings.numInputChannels = 1;
+            settings.sampleRate = 44100;
+            settings.bufferSize = 512;
+            settings.numBuffers = 4;
+            settings.setOutListener(this);
+            settings.setInListener(this);
+//                settings.setOutDevice(outDevice);
+            settings.setInDevice(inDevice);
+            soundStream.setup(settings);
+        }
+    }
+    
+    soundStream.start();
+    stopAudio = false;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
     
-    
     if (stopAudio) {
-        soundStream.stop();
+        changeAudioDevice();
+    }
+    
+    
+    while (oscClient.hasWaitingMessages()) {
+        ofxOscMessage msg;
+        oscClient.getNextMessage(&msg);
         
-        ofSoundStream streamNew;
-        soundStream = streamNew;
-        auto deviceList = soundStream.getDeviceList();
-        for (int i = 0; i < deviceList.size(); i++) {
-            if (deviceList[i].name == this->currentOutput) {
-                const ofSoundDevice outDevice = deviceList[i];
-                ofSoundStreamSettings settings;
-                settings.numOutputChannels = 2;
-                settings.numInputChannels = 1;
-                settings.sampleRate = 44100;
-                settings.bufferSize = 512;
-                settings.numBuffers = 4;
-                settings.setOutListener(this);
-                settings.setInListener(this);
-                settings.setOutDevice(outDevice);
-                soundStream.setup(settings);
+        std::cout << msg.getAddress() << std::endl;
+        
+        std::string addr = msg.getAddress();
+        std::string prefix = addr.substr(1, 8);
+        std::string suffix = addr.substr(10,addr.length()-9);
+        
+        if (prefix == "granular") {
+
+            
+            if (suffix=="global_amplitude") {
+                float val = msg.getArgAsInt(0)/(float)127;
+                ofParameter<float> * ref = &globalAmplitude;
+                ref[0] = val*globalAmplitude.getMax();
+            }else if (suffix=="grain_pitch") {
+                float grainIdx = msg.getArgAsInt(1);
+                float value = msg.getArgAsFloat(0);
+                std::cout << grainIdx << "  --- " << value << std::endl;
+            }else if (suffix=="global_pitch") {
+                float value = msg.getArgAsFloat(0)/(float)127;
+                ofParameter<float> * ref = &gSliders.pitchMultiplier;
+                ref[0] = value*(ref->getMax()-ref->getMin())+ref->getMin();
             }
-            if (deviceList[i].name == this->currentInput) {
-                const ofSoundDevice inDevice = deviceList[i];
-                ofSoundStreamSettings settings;
-                settings.numOutputChannels = 2;
-                settings.numInputChannels = 1;
-                settings.sampleRate = 44100;
-                settings.bufferSize = 512;
-                settings.numBuffers = 4;
-                settings.setOutListener(this);
-                settings.setInListener(this);
-//                settings.setOutDevice(outDevice);
-                settings.setInDevice(inDevice);
-                soundStream.setup(settings);
-            }
+
+
+
         }
         
-        soundStream.start();
-        stopAudio = false;
     }
     
 
@@ -247,23 +333,62 @@ void ofApp::update(){
     // from both threads simultaneously (see the corresponding lock in audioOut())
     unique_lock<mutex> lock(audioMutex);
     
-
     
+    useMockInput = mockInputToggle;
+    
+
+    if (delayModeOn) {
+        gSliders.warpAmount=0;
+        follow = true;
+    } else {
+        feedback = 0.f;
+        follow = false;
+    }
     
     granConfig.delayTime = msToSamps(delayTime);
     granConfig.feedback = feedback;
-    
     granConfig.loopOn = loopToggle;
     granConfig.loopLength = msToSamps(loopLength);
     granConfig.loopStart = msToSamps(loopStart);
     granConfig.playbackSpeed = playbackSpeed;
     granConfig.follow = follow;
     
+    // === Warping
+    granConfig.warpAmount = gSliders.warpAmount;
+    granConfig.numWarpPoints = gSliders.numWarpPoints;
+    
     granConfig.startRandomness = this->startRandomness;
     granConfig.lengthRandomness = this->lengthRandomness;
     
+    // === Window
+    currentWindow = gran.getWindow();
     
-    gran.updateConfig(granConfig);
+    
+
+    // === Pitch
+    
+    if (audioReady) {
+        std::vector<float> pitches(NUM_GRAINS);
+        if (gSliders.manualPitch) {
+            for (int i = 0; i<NUM_GRAINS; i++) {
+                pitches[i]=gSliders.pitches[i]*gSliders.pitchMultiplier;
+            }
+            gran.distributePitch(pitches);
+        } else {
+            pitches = _pitchManager.generate(granConfig.numGrains, gSliders.pitchSpread);
+            gran.distributePitch(pitches);
+            gSliders.setPitches(pitches.data());
+        }
+    }
+
+    // ==========
+
+    
+    
+    warpPoints = gran.getTransients();
+    
+//    gran.updateConfig(granConfig);
+    
         
     waveform.clear();
     int offset = 3;
@@ -273,7 +398,11 @@ void ofApp::update(){
         pointers[i] = drawGrainPointer(i, 1.0);
         grainBBs[i] = drawGrainBB(i);
     }
-    writePointer = drawWritePointer(lastGrainStates[0].writePointer);
+    
+    if (lastGrainStates.size() > 0) {
+        writePointer = drawWritePointer(lastGrainStates[0].writePointer);
+    }
+
 }
 
 ofPolyline ofApp::drawWaveform(ofSoundBuffer *buffer, ofVec2f origin) {
@@ -304,24 +433,30 @@ ofPolyline ofApp::drawWaveform(ofSoundBuffer *buffer, ofVec2f origin) {
 
 ofPolyline ofApp::drawGrainPointer(int idx, float windowAmount) {
     
-    int rPos = floor(lastGrainStates[idx].loopPointer);
-    int wPos = lastGrainStates[0].writePointer;
-    float windowVal = lastGrainStates[idx].windowEnvelope;
-    
-    float lineHeight = bufferHeight*3-bufferHeight*3*((1-windowVal)*windowAmount);
-
-    float yT = bufferDisplayPos.y-lineHeight/2;
-    float yB = bufferDisplayPos.y+lineHeight/2;
-    
-
-//    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    int pos = (granConfig.delayBufferSize-(wPos-rPos))%granConfig.delayBufferSize;
-    float x = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    
     ofPolyline pointerLine;
     pointerLine.clear();
-    pointerLine.addVertex(x,yT);
-    pointerLine.addVertex(x, yB);
+    
+    if (lastGrainStates.size() > 0) {
+        int rPos = floor(lastGrainStates[idx].loopPointer);
+        int wPos = lastGrainStates[0].writePointer;
+        float windowVal = lastGrainStates[idx].windowEnvelope;
+        
+        float lineHeight = bufferHeight*3-bufferHeight*3*((1-windowVal)*windowAmount);
+
+        float yT = bufferDisplayPos.y-lineHeight/2;
+        float yB = bufferDisplayPos.y+lineHeight/2;
+        
+
+    //    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        int pos = (granConfig.delayBufferSize-(wPos-rPos))%granConfig.delayBufferSize;
+        float x = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        
+
+        pointerLine.addVertex(x,yT);
+        pointerLine.addVertex(x, yB);
+    }
+    
+
     
     return pointerLine;
 }
@@ -347,38 +482,43 @@ ofPolyline ofApp::drawWritePointer(float pos) {
 }
 
 ofBoxPrimitive ofApp::drawGrainBB(int idx) {
-    float pos = lastGrainStates[idx].loopPointer;
-    float windowVal = lastGrainStates[idx].windowEnvelope;
-    
-    float lineHeight = bufferHeight*3;
-    float boxWidth = 50;
-
-    float yT = bufferDisplayPos.y-lineHeight/2;
-    float yB = bufferDisplayPos.y+lineHeight/2;
-    
-
-    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    float xB = xT;
     
     ofBoxPrimitive box;
-
-     
+    
+    if (lastGrainStates.size() > 0) {
+        float pos = lastGrainStates[idx].loopPointer;
+        float windowVal = lastGrainStates[idx].windowEnvelope;
+        
+        float lineHeight = bufferHeight*3;
+        float boxWidth = 50;
+        
+        float yT = bufferDisplayPos.y-lineHeight/2;
+        float yB = bufferDisplayPos.y+lineHeight/2;
+        
+        
+        float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
+        float xB = xT;
+    }
+    
     return box;
 }
 
 ofPolyline ofApp::drawBuffer(const float *buffer, int length, ofVec2f origin) {
     
-    int writeIdx = lastGrainStates[0].writePointer;
-    
     ofPolyline bufferGraphic;
     bufferGraphic.clear();
-    int div = 10;
-    for(size_t i = 0; i < length/div; i++) {
-        int idx = (i*div+writeIdx)%granConfig.delayBufferSize;
-        float sample = buffer[idx];
-        float y = origin.y-sample*bufferHeight;
-        float x = i*((float)div)/(float)length*bufferWidth+origin.x;
-        bufferGraphic.addVertex(x, y);
+    
+    if (lastGrainStates.size() > 0) {
+        int writeIdx = lastGrainStates[0].writePointer;
+        
+        int div = 10;
+        for(size_t i = 0; i < length/div; i++) {
+            int idx = (i*div+writeIdx)%granConfig.delayBufferSize;
+            float sample = buffer[idx];
+            float y = origin.y-sample*bufferHeight;
+            float x = i*((float)div)/(float)length*bufferWidth+origin.x;
+            bufferGraphic.addVertex(x, y);
+        }
     }
     
         
@@ -391,6 +531,9 @@ void ofApp::draw(){
     ofBackground(ofColor::black);
     ofSetColor(ofColor::white);
     
+
+    
+    
     // GUI
     gui.draw();
     globalCtrl.draw();
@@ -400,18 +543,45 @@ void ofApp::draw(){
     ofSetLineWidth(1);
     bufferDisplay.draw();
     ofSetLineWidth(3);
-    ofSetColor(ofColor(200,0,0, 128));
+
+    ofSetColor(100,100,255, 150);
     for (int i = 0; i < NUM_GRAINS; i++) {
         pointers[i].draw();
 //        grainBBs[i].draw();
     }
 
+    ofSetColor(255,0,0,150);
+    for (int i = 0; i < warpPoints.size(); i++) {
+        int writePtr = lastGrainStates[0].writePointer;
+        float idx = (float)warpPoints[i]+(granConfig.delayBufferSize-writePtr)%granConfig.delayBufferSize;
+        float x = (idx/(float)granConfig.delayBufferSize)*bufferWidth+bufferDisplayPos.x;
+        int boxHeight = 100;
+        ofDrawRectangle(x, bufferDisplayPos.y-boxHeight, 5, boxHeight);
+    }
+
 
 //    writePointer.draw();
-    ofSetColor(ofColor::white);
+
     ofDrawBitmapString("Window Type: Tukey (tapered cosine)", 500, 700);
     ofDrawBitmapString("Interpolation Method: Cubic Linear", 500, 725);
     
+    drawGrainWindow(currentWindow._buf.data(), currentWindow._resolution, currentWindow.name, 200, 500, 100);
+}
+
+
+void ofApp::drawGrainWindow(float * data, int length, std::string & type, int x, int y, int height) {
+    
+    ofNoFill();
+    ofDrawRectangle(x, y, length, height);
+    int textHeight=10;
+    ofDrawBitmapString(type, x, y+textHeight);
+    
+    ofPolyline window;
+    for (int i = 0; i < length; i++) {
+        window.addVertex(ofPoint(x+i, y+height+data[i]*height));
+    }
+    window.draw();
+    ofFill();
 }
 
 //--------------------------------------------------------------
@@ -489,3 +659,5 @@ void ofApp::ofInputChanged(string & input) {
     this->stopAudio = true;
     this->currentInput = input;
 }
+
+
