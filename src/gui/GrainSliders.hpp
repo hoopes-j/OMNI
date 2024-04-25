@@ -18,6 +18,12 @@ public:
     
     int numGrains;
     
+    ofParameterGroup grainGroup;
+    ofParameterGroup grainStarts;
+    std::vector<ofParameter<float>> start;
+    ofParameterGroup grainAmpsGroup;
+    std::vector<ofParameter<float>> amps;
+    
     ofParameterGroup params;
     std::vector<ofParameter<float>> pitches;
     ofParameter<float> pitchMultiplier;
@@ -27,6 +33,7 @@ public:
     ofParameterGroup warpGroup;
     ofParameter<int> numWarpPoints;
     ofParameter<float> warpAmount;
+    ofParameter<float> transientThreshold;
     
     
     unique_ptr<ofxDropdown> windowDropdown;

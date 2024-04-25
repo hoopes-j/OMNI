@@ -59,6 +59,10 @@ public:
         return false;
     }
     
+    void setThreshold(float threshold) {
+        _threshold = threshold;
+    }
+    
     void cleanup();
     
     int _n;

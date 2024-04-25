@@ -9,10 +9,32 @@
 
 
 void GrainSliders::setup(int numGrains) {
-    params.setName("pitch");
-    
-    pitches.resize(numGrains);
     this->numGrains = numGrains;
+    
+    // Grain Group
+    grainGroup.setName("Individual Grains");
+    grainStarts.setName("Start Positions");
+    start.resize(numGrains);
+    for (int i = 0; i < numGrains; i++) {
+        std::string sliderName = "start "+std::to_string(i);
+        grainStarts.add(start[i].set(sliderName, 50, 0, 1000));
+    }
+    grainAmpsGroup.setName("Amplitudes");
+    amps.resize(numGrains);
+    for (int i = 0; i < numGrains; i++) {
+        std::string sliderName = "Amplitude "+std::to_string(i);
+        grainAmpsGroup.add(amps[i].set(sliderName, 1, 0, 1));
+    }
+    
+    grainGroup.add(grainAmpsGroup);
+    grainGroup.add(grainStarts);
+
+    
+    
+    // Pitch Group
+    params.setName("pitch");
+    pitches.resize(numGrains);
+
     params.add(pitchSpread.set("pitch spread", 0.0, 0.0, 1.0));
     params.add(manualPitch.set("manual pitch", false));
     for (int i = 0; i < numGrains; i++) {
@@ -27,6 +49,7 @@ void GrainSliders::setup(int numGrains) {
     warpGroup.setName("warping");
     warpGroup.add(numWarpPoints.set("Transient Number", 1.0, 1.0, 10.0));
     warpGroup.add(warpAmount.set("warp", 1.0, 0.0, 1.0));
+    warpGroup.add(transientThreshold.set("Transient Threshold", 1.5, 0.0, 2.0));
     
     setupWindowTypeSelector();
 }

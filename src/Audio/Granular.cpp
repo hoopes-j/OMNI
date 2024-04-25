@@ -35,6 +35,7 @@ bool Granular::setup(GranularConfig config) {
 bool Granular::updateConfig(GranularConfig config) {
     _config = config;
     _state.readPointer = (this->_config.delayBufferSize+(_state.writePointer-_config.delayTime))%this->_config.delayBufferSize;
+    _envFollower.setThreshold(_config.transientThreshold);
     return true;
 }
 
@@ -87,20 +88,23 @@ GranularState Granular::getState() {
 
 
 void Granular::processSetup(float input) {
-    _delayBuffer[_particles[0].writePointer] = input;
-    
-    // clear table of existing transients
-    for (int i = 0; i < transientPositions.size(); i++) {
-        if (_particles[0].writePointer == transientPositions[i]) {
-            transientPositions.erase(transientPositions.begin()+i);
+    if (!_config.freeze) {
+        _delayBuffer[_particles[0].writePointer] = input;
+        
+        // clear table of existing transients
+        for (int i = 0; i < transientPositions.size(); i++) {
+            if (_particles[0].writePointer == transientPositions[i]) {
+                transientPositions.erase(transientPositions.begin()+i);
+            }
+        }
+        
+        // detect transients
+        if (_envFollower.detect(input)) {
+    //        std::cout << "transient detected!! " << std::endl;
+            this->addTransient(_particles[0].writePointer-2205); // Subtract 2205 to compensate for the fact that transient will happen at the end of each 5ms block IE, the transient actually started 5 milliseconds ago when it is detected
         }
     }
-    
-    // detect transients
-    if (_envFollower.detect(input)) {
-//        std::cout << "transient detected!! " << std::endl;
-        this->addTransient(_particles[0].writePointer-2205); // Subtract 2205 to compensate for the fact that transient will happen at the end of each 5ms block IE, the transient actually started 5 milliseconds ago when it is detected
-    }
+
 }
 
 
@@ -126,10 +130,11 @@ float Granular::process(float input) {
     }
     // ====
             
-            
-    for (int i = 0; i < _config.numGrains; i++) {
-        // TODO: Should not have seperate write pointer per grain
-        _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
+    if (!_config.freeze) {
+        for (int i = 0; i < _config.numGrains; i++) {
+            // TODO: Should not have seperate write pointer per grain
+            _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
+        }
     }
     
     return out;
@@ -156,10 +161,11 @@ void Granular::processEach(float input, float * output) {
     }
     // ====
             
-            
-    for (int i = 0; i < _config.numGrains; i++) {
-        // TODO: Should not have seperate write pointer per grain
-        _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
+    if (!_config.freeze) {
+        for (int i = 0; i < _config.numGrains; i++) {
+            // TODO: Should not have seperate write pointer per grain
+            _particles[i].writePointer = (_particles[i].writePointer + 1) % _config.delayBufferSize;
+        }
     }
     
 }
@@ -264,10 +270,9 @@ float Granular::processGrain(int index) {
         }
         
         
-        // Applying window
+        // Applying window and final amplitude scaling
         state->windowEnvelope = this->_window.apply(state->loopPointer-state->loopStart,state->loopLength);
-    //    state.windowEnvelope = 1.0;
-        out = out*state->windowEnvelope;
+        out = out*state->windowEnvelope*state->amplitude;
         
     }
     
@@ -311,4 +316,9 @@ std::string GranularState::toString() {
     out += "loopPointer: " + std::to_string(this->loopPointer);
     out += "loopStart: " + std::to_string(this->loopPointer);
     return out;
+}
+
+void Granular::setIndividualParams(int grainNum, float amplitude)
+{
+    this->_particles[grainNum].amplitude=amplitude;
 }

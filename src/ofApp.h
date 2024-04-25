@@ -16,6 +16,7 @@
 #include "yaml_all.hpp"
 #include "SpatialSliders.hpp"
 #include "SpatializerDisplay.hpp"
+#include "BufferDisplay.hpp"
 
 #define OSC_PORT 5000
 
@@ -102,19 +103,21 @@ class ofApp : public ofBaseApp{
     
     
         ofxPanel gui;
+        ofParameterGroup delayGroup;
     
         ofParameter<bool> delayModeOn;
-        ofxIntSlider delayTime;
-        ofxFloatSlider feedback;
+        ofParameter<int> delayTime;
+        ofParameter<float> feedback;
         ofxFloatSlider wetDryKnob;
     
-        // Global controls
-        ofxPanel globalCtrl;
-        ofxToggle loopToggle;
+        // Grain controls
+        ofParameter<bool> freeze;
+        ofxPanel grainPanel;
+        ofParameter<float> bufferIdx;
         ofxIntSlider loopLength;
         ofxToggle follow;
         ofxIntSlider loopStart;
-        ofxFloatSlider playbackSpeed;
+    
     
         // Randomness
         ofxPanel randness;
@@ -142,7 +145,6 @@ class ofApp : public ofBaseApp{
 
         std::vector<GranularState> lastGrainStates;
     
-        ofPolyline bufferDisplay;
         ofVec2f bufferDisplayPos;
         int bufferHeight = 150;
         int bufferWidth = 1000;
@@ -150,14 +152,6 @@ class ofApp : public ofBaseApp{
         int bufferY = 800;
         float * bufferMirror;
     
-        std::vector<ofPolyline> pointers;
-        ofPolyline drawWritePointer(float pos);
-        ofPolyline drawGrainPointer(int idx, float windowAmount);
-        ofBoxPrimitive drawGrainBB(int idx);
-        ofPolyline pointerDisplay;
-        std::vector<ofPolyline> pointerViews;
-        std::vector<ofBoxPrimitive> grainBBs;
-        ofPolyline writePointer;
         JWindow grainWindow;
     
     
@@ -177,7 +171,8 @@ class ofApp : public ofBaseApp{
     
         ofxOscReceiver oscClient;
         WaveformDisplay waveformDisplay;
-        SpatializerDisplay spatializerDisplay;
+        BinauralDisplay binauralDisplay;
+        BufferDisplay buffDisplay;
         ofEasyCam cam;
     
     

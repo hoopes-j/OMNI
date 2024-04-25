@@ -34,9 +34,12 @@ public:
     float loopStart;
     float playbackSpeed;
     
+    bool freeze;
+    
     // Warping
     float warpAmount;
     int numWarpPoints;
+    float transientThreshold;
     
     float startRandomness;
     float lengthRandomness;
@@ -64,6 +67,8 @@ public:
     bool active;
     
     float windowEnvelope;
+    
+    float amplitude;
     
     GranularState() {
         this->active = true;
@@ -132,8 +137,10 @@ public:
         transientPositions.push_back(location);
     };
     
+    // Setters
+    void setIndividualParams(int grainNum, float amplitude);
     
-    
+    // Getters
     std::vector<int> getTransients() {return transientPositions;}
     JWindow getWindow() {return _window;}
     

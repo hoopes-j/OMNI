@@ -23,6 +23,7 @@
 #include "Granular.hpp"
 #include "LoudspeakerSpatializer.hpp"
 #include "SpatialController.hpp"
+#include "LoudspeakerController.hpp"
 
 
 class AudioEngine {
@@ -35,7 +36,8 @@ public:
                int numOutputChannels,
                GranularConfig granularConfig,
                const std::string spatializerType,
-               int numSpatializers
+               int numSpatializers,
+               std::vector<std::vector<int>> mappings
     );
     float process(const float input);
     void process(const float * inputBuffer, float * outputBuffer);
@@ -67,12 +69,17 @@ public:
     
     const float * getBuffer() {return granulator.getBuffer();}
     std::vector<GranularState> getGranularStates() {return granulator.getStates();}
+    std::vector<int> getTransients() {return granulator.getTransients();}
     
     
     // ===== Setters
+    void setIndividualParams(int grainNum, float amplitude) {granulator.setIndividualParams(grainNum,amplitude);}
     
     void setBinauralPosition(int processorNum, int azimuth, int elevation);
     void setLoudspeakerPosition(int processorNum, int position);
+    void setSpatialMappings(std::vector<std::vector<int>> mappings) {_spatialMappings=mappings;};
+    
+
     
     
     
@@ -90,6 +97,8 @@ protected:
     
     
     // ==== SpatialStuff
+    
+    std::vector<std::vector<int>> _spatialMappings;
     std::string _spatializerType;
     int _numSpatializers;
 
@@ -97,6 +106,7 @@ protected:
     float _binauralOutput[BINAURAL_OUTPUT_CHANNELS];    // Array to accumulate output of spatializers
     float _tmpBinauralOutput[BINAURAL_OUTPUT_CHANNELS]; // tmp array to hold values during accumulation
     LoudspeakerSpatializer loudspeakerSpatializer;
+    LoudspeakerController loudspeaker;
     
     
     std::vector<float> granularOutput;

@@ -1,5 +1,5 @@
 //
-//  SpatializerDisplay.cpp
+//  BinauralDisplay.cpp
 //  spatializer
 //
 //  Created by Jason Hoopes on 4/9/24.
@@ -7,47 +7,48 @@
 
 #include "SpatializerDisplay.hpp"
 
-void SpatializerDisplay::setup() {
+void BinauralDisplay::setup(int numSpatializers) {
     
-    state.boxPos = ofVec2f(100, 100);
-    state.boxSize = ofVec2f(200,200);
+    this->_numSpatializers = numSpatializers;
+    states.resize(_numSpatializers);
+    for (int i = 0; i < numSpatializers; i++) {
+        states[i].boxPos = ofVec2f(0, 0);
+        states[i].boxSize = ofVec2f(200,200);
+    }
     
-    box.set(state.boxSize.x);
+    pos = ofVec3f(100,300,100);
     
+
+//
+//    box.set(state.boxSize.x);
+//
     double fps = 30;
-        
-        ofSetFrameRate(fps);
+//
+//        ofSetFrameRate(fps);
         ofBackground(255);
 //        ofSetBackgroundAuto(true);
 //        ofSetVerticalSync(true);
-        
+
 //        ofEnableDepthTest();
 //        ofEnableSmoothing();
-        
+
         for (int i = 0; i < 3; i++) {
             ofVec3f t = ofVec3f(ofRandom(1000), ofRandom(1000), ofRandom(1000));
             times.push_back(t);
-            
+
             ofVec3f a = ofVec3f(0, 0, 0);
             angles.push_back(a);
         }
     
-}
-
-void SpatializerDisplay::update() {
-//    for (int i = 0; i < angles.size(); i++) {
-//           angles.at(i).x = ofMap(ofSignedNoise(times.at(i).x), -1, 1, -180, 180);
-//           angles.at(i).y = ofMap(ofSignedNoise(times.at(i).y), -1, 1, -180, 180);
-//           angles.at(i).z = ofMap(ofSignedNoise(times.at(i).z), -1, 1, -180, 180);
-//
-//           times.at(i) += 0.01;
-//       }
-}
-
-void SpatializerDisplay::updatePosition(float azimuth, float elevation) {
     
-    this->state.azimuth = azimuth;
-    this->state.elevation = elevation;
+    cam.removeAllInteractions();
+    cam.addInteraction(ofEasyCam::TransformType::TRANSFORM_ROTATE, 0);
+    
+    
+    
+}
+
+void BinauralDisplay::update() {
 //    for (int i = 0; i < angles.size(); i++) {
 //           angles.at(i).x = ofMap(ofSignedNoise(times.at(i).x), -1, 1, -180, 180);
 //           angles.at(i).y = ofMap(ofSignedNoise(times.at(i).y), -1, 1, -180, 180);
@@ -57,7 +58,20 @@ void SpatializerDisplay::updatePosition(float azimuth, float elevation) {
 //       }
 }
 
-void SpatializerDisplay::draw() {
+void BinauralDisplay::updatePosition(int idx, float azimuth, float elevation) {
+    
+    this->states[idx].azimuth = azimuth;
+    this->states[idx].elevation = elevation;
+//    for (int i = 0; i < angles.size(); i++) {
+//           angles.at(i).x = ofMap(ofSignedNoise(times.at(i).x), -1, 1, -180, 180);
+//           angles.at(i).y = ofMap(ofSignedNoise(times.at(i).y), -1, 1, -180, 180);
+//           angles.at(i).z = ofMap(ofSignedNoise(times.at(i).z), -1, 1, -180, 180);
+//
+//           times.at(i) += 0.01;
+//       }
+}
+
+void BinauralDisplay::draw() {
     
    
     
@@ -77,9 +91,10 @@ void SpatializerDisplay::draw() {
 //    // now draw
 //    box.draw();
     
+    ofDrawBitmapString("Spatializer", 100, 100);
+    
     float radius = 100;
-    float grainX = cosf((float)state.azimuth/180*PI-PI/2)*radius;
-    float grainY = sinf((float)state.azimuth/180*PI-PI/2)*radius;
+
     
     cam.begin();
     
@@ -95,7 +110,16 @@ void SpatializerDisplay::draw() {
     ofRotateZDeg(z);
     ofSetColor(230, 28, 139);
     ofFill();
-    ofDrawBox(glm::vec3(grainX, 0, grainY), 20);
+    
+    // Render all the spatializers
+    for (int i = 0; i < _numSpatializers; i++) {
+        float grainX = cosf((float)states[i].azimuth/180*PI-PI/2)*radius;
+        float grainZ = sinf((float)states[i].azimuth/180*PI-PI/2)*radius;
+        ofDrawBox(glm::vec3(grainX+pos.x, pos.y, grainZ+pos.z), 20);
+    }
+
+    
+
     
     ofPushMatrix();
 
@@ -105,12 +129,12 @@ void SpatializerDisplay::draw() {
     ofSetColor(48, 53, 149);
     ofNoFill();
     ofSetLineWidth(2);
-    ofDrawBox(glm::vec3(0, 0, 0), 200);
+    ofDrawBox(glm::vec3(pos.x, pos.y, pos.z), 200);
 
     cam.end();
     
 }
 
-void SpatializerDisplay::cleanup() {
+void BinauralDisplay::cleanup() {
     
 }

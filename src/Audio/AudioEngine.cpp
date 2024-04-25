@@ -15,7 +15,8 @@ bool AudioEngine::setup(
                         int numOutputChannels,
                         GranularConfig granularConfig,
                         const std::string spatializerType,
-                        int numSpatializers
+                        int numSpatializers,
+                        std::vector<std::vector<int>> mappings
 ){
     
     this->_sampleRate = sampleRate;
@@ -26,6 +27,7 @@ bool AudioEngine::setup(
     // === Spatial
     this->_spatializerType = spatializerType;
     this->_numSpatializers = numSpatializers;
+    this->_spatialMappings = mappings;
     
     
     // === Allocate Audio I/O buffers
@@ -95,13 +97,23 @@ void AudioEngine::process()
                 this->setOutput(spatialized, frame, channel);
             }
         } else if (_spatializerType == BINAURAL_MODE) {
-            for (int s = 0; s < binaural.numProcessors(); s++) {
-                binaural.process(s, granularOutput[s], &_tmpBinauralOutput[0]);
-                _binauralOutput[OMNI_L_CHANNEL]+=_tmpBinauralOutput[OMNI_L_CHANNEL];
-                _binauralOutput[OMNI_R_CHANNEL]+=_tmpBinauralOutput[OMNI_R_CHANNEL];
-                _tmpBinauralOutput[OMNI_L_CHANNEL] = 0;
-                _tmpBinauralOutput[OMNI_R_CHANNEL] = 0;
+            
+            for (int s = 0; s < _spatialMappings.size(); s++) {
+                for (int g : _spatialMappings[s]) {
+                    binaural.process(s, granularOutput[g], &_tmpBinauralOutput[0]);
+                    _binauralOutput[OMNI_L_CHANNEL]+=_tmpBinauralOutput[OMNI_L_CHANNEL];
+                    _binauralOutput[OMNI_R_CHANNEL]+=_tmpBinauralOutput[OMNI_R_CHANNEL];
+                    _tmpBinauralOutput[OMNI_L_CHANNEL] = 0;
+                    _tmpBinauralOutput[OMNI_R_CHANNEL] = 0;
+                }
             }
+//            for (int s = 0; s < binaural.numProcessors(); s++) {
+//                binaural.process(s, granularOutput[s], &_tmpBinauralOutput[0]);
+//                _binauralOutput[OMNI_L_CHANNEL]+=_tmpBinauralOutput[OMNI_L_CHANNEL];
+//                _binauralOutput[OMNI_R_CHANNEL]+=_tmpBinauralOutput[OMNI_R_CHANNEL];
+//                _tmpBinauralOutput[OMNI_L_CHANNEL] = 0;
+//                _tmpBinauralOutput[OMNI_R_CHANNEL] = 0;
+//            }
             
             this->setOutput(_binauralOutput[OMNI_L_CHANNEL], frame, OMNI_L_CHANNEL);
             this->setOutput(_binauralOutput[OMNI_R_CHANNEL], frame, OMNI_R_CHANNEL);

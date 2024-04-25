@@ -1,17 +1,17 @@
 //
-//  SpatializerDisplay.hpp
+//  BinauralDisplay.hpp
 //  spatializer
 //
 //  Created by Jason Hoopes on 4/9/24.
 //
 
-#ifndef SpatializerDisplay_hpp
-#define SpatializerDisplay_hpp
+#pragma once
 
 #include <stdio.h>
 #include "ofMain.h"
 
-struct SpatializerDisplayState {
+class BinauralDisplayState {
+public:
     float azimuth;
     float elevation;
     
@@ -20,15 +20,15 @@ struct SpatializerDisplayState {
     ofVec2f container;
 };
 
-class SpatializerDisplay {
+class BinauralDisplay {
 public:
-    void setup();
+    void setup(int numSpatializers);
     void update();
-    void updatePosition(float azimuth, float elevation);
+    void updatePosition(int idx, float azimuth, float elevation);
     void draw();
     void cleanup();
     
-    SpatializerDisplayState state;
+    std::vector<BinauralDisplayState> states;
     
     ofBoxPrimitive box;
     
@@ -37,6 +37,8 @@ public:
     ofEasyCam cam;
 
 private:
+    
+    ofVec3f pos;
+    int _numSpatializers;
 };
 
-#endif /* SpatializerDisplay_hpp */

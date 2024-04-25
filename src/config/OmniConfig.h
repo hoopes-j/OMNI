@@ -29,6 +29,15 @@ class OfxSpatialConfig {
 public:
     std::string type;
     int numSpatializers;
+    std::vector<std::vector<int>> mappings;
+};
+
+class OfxGraphicsConfig {
+public:
+    bool renderSpatializer;
+    std::string bufferRenderType;
+    
+    int bgColor[4];
 };
 
 
@@ -46,6 +55,8 @@ public:
     
     // ======= Granulation
     OfxGranularConfig granular;
+    
+    OfxGraphicsConfig graphics;
 
     
     
@@ -64,6 +75,27 @@ public:
         if (useSpatializers) {
             spatialData["type"] >> spatial.type;
             spatialData["num_processors"] >> spatial.numSpatializers;
+            spatial.mappings.resize(spatial.numSpatializers);
+            spatial.mappings[0].resize(4);
+            spatial.mappings[1].resize(4);
+            for (int j=0;j<4;j++) {
+                int idx, idx2;
+                spatialData["proc1_mapping"][j] >> idx;
+                spatialData["proc2_mapping"][j] >> idx2;
+                spatial.mappings[0][j] = idx;
+                spatial.mappings[1][j] = idx2;
+            }
+//            for (int i=0;i<spatial.numSpatializers;i++) {
+//                std:string name = std::string("proc") + std::to_string(i+1) + std::string("_mapping");
+//                for (int j=0;j<4;j++) {
+//                    int idx;
+//                    spatialData[name.c_str()][i] >> idx;
+//                    spatial.mappings[i][j] = idx;
+//                }
+//            }
+
+
+            
         } else {
             spatial.type = "none";
         }
@@ -72,6 +104,16 @@ public:
         char granularKey[] = "granular";
         auto granularData = yamlData[granularKey];
         granularData["num_voices"] >> granular.numVoices;
+        
+        // ======= Graphics
+        char graphicsKey[] = "graphics";
+        auto graphicsData = yamlData[graphicsKey];
+        graphicsData["renderSpatializer"] >> graphics.renderSpatializer;
+        graphicsData["bufferRenderType"] >> graphics.bufferRenderType;
+        for (int i=0;i<4;i++) {
+            graphicsData["background_color"][i] >> graphics.bgColor[i];
+        }
+
 
         
         

@@ -118,7 +118,8 @@ void ofApp::setup(){
                            settings.numOutputChannels,
                            granConfig,
                            omniCfg.spatial.type,
-                           omniCfg.spatial.numSpatializers
+                           omniCfg.spatial.numSpatializers,
+                           omniCfg.spatial.mappings
     )) {
         std::cout << "FATAL===========" << std::endl;
         std::cout << "Audio Engine Setup Failed!" << std::endl;
@@ -141,45 +142,37 @@ void ofApp::setup(){
     }
     
     // Panels
-    globalCtrl.setup("global", "settings.xml", cols[0], 0);
+    grainPanel.setup("global", "settings.xml", cols[0], 0);
     randness.setup("Randomness", "settings.xml", cols[1], 0);
     gui.setup("delay", "settings.xml", cols[2], 0);
     ioPanel.setup("I/O", "settings.xml", cols[3], 0);
     spatialPanel.setup("Spatial Panel", "spatialPanel.xml", cols[3], 150);
     // Groups
     gSliders.setup(omniCfg.granular.numVoices);
-
-
     
-    
-    
-    gui.add(delayModeOn.set("delaymode[follow]",false));
-    gui.add(delayTime.setup("delay time", this->sampsToMs(granConfig.delayTime), 0, this->sampsToMs(granConfig.delayBufferSize)));
-    gui.add(feedback.setup("feedback", 0.1, 0.0, 0.9));
-
-    
-    globalCtrl.add(loopToggle.setup("loop"));
-    globalCtrl.add(loopLength.setup("loop length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
-    globalCtrl.add(follow.setup("follow", false));
-    globalCtrl.add(loopStart.setup("loop start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
-    globalCtrl.add(playbackSpeed.setup("speed", 1.0, -2.0, 2.0));
-    globalCtrl.add(gSliders.params);
-    globalCtrl.add(gSliders.warpGroup);
-    globalCtrl.add(gSliders.windowDropdown.get());
-    
+    delayGroup.setName("Delay Mode");
+    delayGroup.add(delayModeOn.set("delaymode[follow]",false));
+    delayGroup.add(delayTime.set("delay time", this->sampsToMs(granConfig.delayTime), 0, this->sampsToMs(granConfig.delayBufferSize)));
+    delayGroup.add(feedback.set("feedback", 0.1, 0.0, 0.9));
 
    
+    grainPanel.add(bufferIdx.set("buffer index", 0, 0, 3));
+    grainPanel.add(loopLength.setup("grain length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    grainPanel.add(freeze.set("freeze", false));
+    grainPanel.add(follow.setup("follow", false));
+    grainPanel.add(loopStart.setup("grain start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    grainPanel.add(delayGroup);
+    grainPanel.add(gSliders.params);
+    grainPanel.add(gSliders.warpGroup);
+    grainPanel.add(gSliders.windowDropdown.get());
+    
 
-
-//    grainSpeeds.resize(granConfig.numGrains);
-//    for (int i = 0; i < granConfig.numGrains; i++) {
-//        globalCtrl.add(grainSpeeds[i].setup("Grain i", 1.0, -2.0, 2.0));
-//    }
 
     
 
     randness.add(startRandomness.setup("start", 0.0, 0.0, 1.0));
     randness.add(lengthRandomness.setup("length", 0.0, 0.0, 1.0));
+    randness.add(gSliders.grainGroup);
     
     
     
@@ -214,12 +207,6 @@ void ofApp::setup(){
     inputDropdown->addListener(this, &ofApp::ofInputChanged);
     
 
-    this->bufferDisplayPos = ofVec2f(bufferX, bufferY);
-    
-    this->pointers.resize(omniCfg.granular.numVoices);
-    this->grainBBs.resize(omniCfg.granular.numVoices);
-    
-    
     if (!_pitchManager.setup()) {
         std::cerr << "[ofApp::setup] Unable to setup Pitch Manager" << std::endl;
         exit();
@@ -228,6 +215,15 @@ void ofApp::setup(){
     if (!waveformDisplay.setup(500,50)) {
         std::cerr << "[ofApp::setup] Unable to setup Waveform Display" << std::endl;
         exit();
+    }
+    
+    if (!buffDisplay.setup(ofVec2f(bufferX, bufferY), omniCfg.granular.numVoices)) {
+        std::cerr << "[ofApp::setup] Unable to setup Buffer Display" << std::endl;
+        exit();
+    }
+    
+    if (omniCfg.graphics.renderSpatializer) {
+        binauralDisplay.setup(omniCfg.spatial.numSpatializers);
     }
     
     
@@ -256,8 +252,11 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
 //    std::lock_guard<std::mutex> guard(granConfigMutex);
     gran.updateConfig(granConfig);
     
-    audioEngine.updateConfig(granConfig);
-    audioEngine.process();
+    if (audioReady) {
+        audioEngine.updateConfig(granConfig);
+        audioEngine.process();
+    }
+
     
     for (uint frame = 0; frame < audioEngine.framesPerBlock(); frame++) {
         float dry = audioEngine.getInput(frame, 0);
@@ -272,7 +271,6 @@ void ofApp::audioOut(ofSoundBuffer &outBuffer) {
     
 
     unique_lock<mutex> lock(audioMutex);
-//    lastGrainStates = gran.getStates();
     lastGrainStates = audioEngine.getGranularStates();
     lastBuffer = outBuffer;
 }
@@ -399,21 +397,28 @@ void ofApp::update(){
     
     granConfig.delayTime = msToSamps(delayTime);
     granConfig.feedback = feedback;
-    granConfig.loopOn = loopToggle;
     granConfig.loopLength = msToSamps(loopLength);
     granConfig.loopStart = msToSamps(loopStart);
-    granConfig.playbackSpeed = playbackSpeed;
     granConfig.follow = follow;
+    granConfig.freeze = freeze;
     
     // === Warping
     granConfig.warpAmount = gSliders.warpAmount;
     granConfig.numWarpPoints = gSliders.numWarpPoints;
+    granConfig.transientThreshold = gSliders.transientThreshold;
+    // ======
     
     granConfig.startRandomness = this->startRandomness;
     granConfig.lengthRandomness = this->lengthRandomness;
     
     // === Window
     currentWindow = gran.getWindow();
+    
+    
+    // ==== Individual Grains
+    for (int i = 0; i<omniCfg.granular.numVoices; i++) {
+        audioEngine.setIndividualParams(i,gSliders.amps[i]);
+    }
     
     
 
@@ -433,16 +438,26 @@ void ofApp::update(){
         }
     }
 
-    // ==========
+    // Granular Display Updates ==========
     
     if (audioReady) {
         if (lastGrainStates.size()>0) {
             float ptr = lastGrainStates[0].loopPointer;
             int grainLength = lastGrainStates[0].loopLength;
             int grainStart = lastGrainStates[0].loopStart;
-            waveformDisplay.update(audioEngine.getBuffer(), granConfig.delayBufferSize, ptr, grainLength, grainStart);
+            
+            if (omniCfg.graphics.bufferRenderType == "2D") {
+                buffDisplay.update(audioEngine.getBuffer(), granConfig.delayBufferSize, lastGrainStates[0].writePointer);
+                buffDisplay.setWarpPoints(audioEngine.getTransients(), granConfig.warpAmount>0.5);
+                for (int i = 0; i < omniCfg.granular.numVoices; i++) {
+                    buffDisplay.drawGrainPointer(i, lastGrainStates[i].loopPointer, 1.0, lastGrainStates[i].windowEnvelope, gSliders.amps[i]);
+                }
+            } else {
+                waveformDisplay.update(audioEngine.getBuffer(), granConfig.delayBufferSize, ptr, grainLength, grainStart);
+            }
         }
     }
+    // ==========
     
     
     // Pass Spatial Params ==========
@@ -454,6 +469,7 @@ void ofApp::update(){
             int azimuth = aVal-(aVal%15);
             spatialSliders.elevations[i] = elevation;
             spatialSliders.azimuths[i] = azimuth;
+            binauralDisplay.updatePosition(i,azimuth,elevation);
             audioEngine.setBinauralPosition(i,azimuth, elevation);
         }
     }
@@ -462,146 +478,10 @@ void ofApp::update(){
 
 
     
-    warpPoints = gran.getTransients();
-    
-//    gran.updateConfig(granConfig);
-    
-        
-    waveform.clear();
-    int offset = 3;
-    
-    bufferDisplay = this->drawBuffer(gran.getBuffer(), granConfig.delayBufferSize, this->bufferDisplayPos);
-    for (int i = 0; i < omniCfg.granular.numVoices; i++) {
-        pointers[i] = drawGrainPointer(i, 1.0);
-        grainBBs[i] = drawGrainBB(i);
-    }
-    
-    if (lastGrainStates.size() > 0) {
-        writePointer = drawWritePointer(lastGrainStates[0].writePointer);
-    }
 
+    
+    
 }
-
-ofPolyline ofApp::drawWaveform(ofSoundBuffer *buffer, ofVec2f origin) {
-    ofPolyline newWaveform;
-    newWaveform.clear();
-    
-    float thetaDiff = (2 * M_PI) / buffer->getNumFrames();
-    float theta = 0;
-        
-    float firstX = 0;
-    float firstY = 0;
-    
-    for(size_t i = 0; i < buffer->getNumFrames(); i++) {
-        float sample = buffer->getSample(i, 0);
-        float radius = ofMap(sample, 0, 1, 200, 300);
-        float x = sin(theta) * radius + origin.x;
-        float y = cos(theta) * radius + origin.y;
-        if (i == 0) {
-            firstX = x;
-            firstY = y;
-        }
-        theta += thetaDiff;
-        newWaveform.addVertex(x, y);
-    }
-    newWaveform.addVertex(firstX, firstY);
-    return newWaveform;
-}
-
-ofPolyline ofApp::drawGrainPointer(int idx, float windowAmount) {
-    
-    ofPolyline pointerLine;
-    pointerLine.clear();
-    
-    if (lastGrainStates.size() > 0) {
-        int rPos = floor(lastGrainStates[idx].loopPointer);
-        int wPos = lastGrainStates[0].writePointer;
-        float windowVal = lastGrainStates[idx].windowEnvelope;
-        
-        float lineHeight = bufferHeight*3-bufferHeight*3*((1-windowVal)*windowAmount);
-
-        float yT = bufferDisplayPos.y-lineHeight/2;
-        float yB = bufferDisplayPos.y+lineHeight/2;
-        
-
-    //    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-        int pos = (granConfig.delayBufferSize-(wPos-rPos))%granConfig.delayBufferSize;
-        float x = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-        
-
-        pointerLine.addVertex(x,yT);
-        pointerLine.addVertex(x, yB);
-    }
-    
-
-    
-    return pointerLine;
-}
-
-ofPolyline ofApp::drawWritePointer(float pos) {
-    
-    
-    float lineHeight = bufferHeight*3;
-
-    float yT = bufferDisplayPos.y-lineHeight/2;
-    float yB = bufferDisplayPos.y+lineHeight/2;
-    
-
-    float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-    float xB = xT;
-    
-    ofPolyline pointerLine;
-    pointerLine.clear();
-    pointerLine.addVertex(xT,yT);
-    pointerLine.addVertex(xB, yB);
-    
-    return pointerLine;
-}
-
-ofBoxPrimitive ofApp::drawGrainBB(int idx) {
-    
-    ofBoxPrimitive box;
-    
-    if (lastGrainStates.size() > 0) {
-        float pos = lastGrainStates[idx].loopPointer;
-        float windowVal = lastGrainStates[idx].windowEnvelope;
-        
-        float lineHeight = bufferHeight*3;
-        float boxWidth = 50;
-        
-        float yT = bufferDisplayPos.y-lineHeight/2;
-        float yB = bufferDisplayPos.y+lineHeight/2;
-        
-        
-        float xT = pos/(float)granConfig.delayBufferSize*bufferWidth+bufferDisplayPos.x;
-        float xB = xT;
-    }
-    
-    return box;
-}
-
-ofPolyline ofApp::drawBuffer(const float *buffer, int length, ofVec2f origin) {
-    
-    ofPolyline bufferGraphic;
-    bufferGraphic.clear();
-    
-    if (lastGrainStates.size() > 0) {
-        int writeIdx = lastGrainStates[0].writePointer;
-        
-        int div = 10;
-        for(size_t i = 0; i < length/div; i++) {
-            int idx = (i*div+writeIdx)%granConfig.delayBufferSize;
-            float sample = buffer[idx];
-            float y = origin.y-sample*bufferHeight;
-            float x = i*((float)div)/(float)length*bufferWidth+origin.x;
-            bufferGraphic.addVertex(x, y);
-        }
-    }
-    
-        
-    return bufferGraphic;
-}
-
 
 
 //____    ____    ______  __      __
@@ -616,44 +496,33 @@ ofPolyline ofApp::drawBuffer(const float *buffer, int length, ofVec2f origin) {
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofBackground(ofFloatColor(0.9, 0.9, 0.8		));
+    int * bg = &omniCfg.graphics.bgColor[0];
+    ofBackground(ofColor(bg[0],bg[1],bg[2],bg[3]));
 
     // ====== Controls
-    gui.draw();
-    globalCtrl.draw();
+    grainPanel.draw();
     randness.draw();
     ioPanel.draw();
     spatialPanel.draw();
     // ======
 
     
-    
+
     // ====== Visualizers
-    cam.begin();
-    waveformDisplay.draw();
-    cam.end();
+    if (omniCfg.graphics.bufferRenderType == "2D") {
+        buffDisplay.draw();
+    } else {
+        cam.begin();
+        waveformDisplay.draw();
+        cam.end();
+    }
+    
+    if (omniCfg.graphics.renderSpatializer) {
+        binauralDisplay.draw();
+    }
+
     // ======
     
-
-// ========== WAVEFORM DISPLAY
-//
-//    ofSetLineWidth(1);
-//    bufferDisplay.draw();
-//    ofSetLineWidth(3);
-//
-//    ofSetColor(100,100,255, 150);
-//    for (int i = 0; i < omniCfg.granular.numVoices; i++) {
-//        pointers[i].draw();
-//    }
-//
-//    ofSetColor(255,0,0,150);
-//    for (int i = 0; i < warpPoints.size(); i++) {
-//        int writePtr = lastGrainStates[0].writePointer;
-//        float idx = (float)warpPoints[i]+(granConfig.delayBufferSize-writePtr)%granConfig.delayBufferSize;
-//        float x = (idx/(float)granConfig.delayBufferSize)*bufferWidth+bufferDisplayPos.x;
-//        int boxHeight = 100;
-//        ofDrawRectangle(x, bufferDisplayPos.y-boxHeight, 5, boxHeight);
-//    }
 
 // ========= Window
 //

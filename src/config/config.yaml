@@ -31,6 +31,8 @@ spatial:
 #    type: loudspeaker
     type: binaural
     num_processors: 2
+    proc1_mapping: [0,1,2,3]
+    proc2_mapping: [4,5,6,7]
     
     
     
@@ -38,3 +40,9 @@ spatial:
 granular:
     num_voices: 8
 
+
+# ======= Graphics
+graphics:
+    renderSpatializer: true
+    bufferRenderType: "2D"
+    background_color: [0,0,0,255]
