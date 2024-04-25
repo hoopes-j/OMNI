@@ -1,2 +1,4 @@
 *.xcodeproj 
 bin/
+.DS_Store
+

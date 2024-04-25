@@ -12,8 +12,10 @@ bool LoudspeakerSpatializer::setup(int numSpeakers)
 {
     _numOutputSources = numSpeakers;
     _output.resize(_numOutputSources);
+    _amplitudes.resize(_numOutputSources);
     
     _d = (M_PI*2)/_numOutputSources;
+    _angle = 0;
     
     return true;
 }
@@ -50,6 +52,13 @@ void LoudspeakerSpatializer::processAndStore(float input, float angle)
     }
 }
 
+void LoudspeakerSpatializer::processAndStore(float input)
+{
+    for (int n = 0; n < _numOutputSources; n++) {
+        _output[n] += _amplitudes[n]*input;
+    }
+}
+
 void LoudspeakerSpatializer::clearOutput()
 {
     _output.clear();
@@ -61,6 +70,40 @@ float LoudspeakerSpatializer::getSampleAtChannel(int channel) {
         
     }
     return _output[channel];
+}
+
+void LoudspeakerSpatializer::updateAngle(float angle)
+{
+    this->_angle = angle;
+    
+    float twoPi = M_PI*2;
+    float theta = angle;
+    while (theta<0) {
+        theta+=twoPi;
+    }
+    while (theta>twoPi) {
+        theta-=twoPi;
+    }
+    for (int n = 0; n < _numOutputSources; n++) {
+        float sourceAngle = _d*(float)n;
+        
+        float thetaDiff = 0;
+        if (sourceAngle!=0.f) {
+            thetaDiff=abs(theta-sourceAngle);
+        } else {
+            thetaDiff=std::min(theta,abs(twoPi-theta));
+        }
+
+        
+        float amplitude = 0.f;
+        if (thetaDiff==0) {
+            amplitude=1.f;
+        } else if (thetaDiff<_d) {
+            amplitude=abs(1.f/(_d/thetaDiff));
+        }
+        
+        _amplitudes[n] = amplitude;
+    }
 }
 
 

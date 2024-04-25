@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #define HRTF_DIR "/Users/jhoopes/Desktop/northeastern/sp_2024/capstone/granular_spatialization/hrtfs"
 
@@ -33,16 +34,23 @@ void removeCarriageReturns(std::string& str) {
 
 bool Spatializer::setup() {
 
-    std::string hrtf_csv_path = std::string(HRTF_DIR) + "/data.csv";
+    std::string hrtf_csv_path = std::string(HRTF_DIR) + "/omniData.csv";
     
     if (!this->loadSubject(hrtf_csv_path)) {
         std::cerr << "Spatializer Setup: " << "Could not load subject file at " << hrtf_csv_path << std::endl;
         return false;
     }
     
-//    HRTF hrtf = this->loadHRTF(-45, -60);
+    if (_hrtfMap.size()==0) {
+        std::cerr << "Spatializer Setup: " << "Could not load subject file at " << hrtf_csv_path << std::endl;
+        return false;
+    }
     
-    return false;
+    
+    HRTF hrtf = this->loadHRTF(180, 75);
+    
+
+    return true;
 }
 
 bool Spatializer::loadSubject(std::string filePath) {
@@ -96,8 +104,33 @@ bool Spatializer::loadSubject(std::string filePath) {
 }
 
 HRTF Spatializer::loadHRTF(float azimuth, float elevation) {
+ 
+    return _hrtfMap[{azimuth, elevation}];
+}
 
-    HRTF hrtf = _hrtfMap[{azimuth, elevation}];
-    return hrtf;
+HRTF Spatializer::resample(HRTF x, int len){
+ 
+    int binWidth = x.freqs[L].size() / len;
+    int ptr = 0;
+    
+    HRTF y;
+    y.itd = x.itd;
+    y.freqs.resize(NUM_CHANNELS);
+    
+    while (ptr < x.freqs[0].size()) {
+        float avgL = 0;
+        float avgR = 0;
+        for (int i = 0; i < binWidth; i++) {
+            avgL = x.freqs[0][ptr+i];
+            avgR = x.freqs[1][ptr+i];
+        }
+        avgL=avgL/(float)binWidth;
+        avgR=avgR/(float)binWidth;
+        ptr+=binWidth;
+        y.freqs[L].push_back(avgL);
+        y.freqs[R].push_back(avgR);
+    }
+    
+    return y;
 }
 

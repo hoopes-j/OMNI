@@ -31,6 +31,7 @@ public:
         To process an individual stream, without storing its output internally, use "process()"
      */
     void processAndStore(float input, float angle);
+    void processAndStore(float input);
     
     /**
     Returns the sample held at the given channel
@@ -42,19 +43,24 @@ public:
      */
     void clearOutput();
     
+    [[deprecated("Careful When using this overload!! behavior is undefined for parent class")]]
+    void updateAngle(float angle);
+    
     
 private:
     int _numOutputSources;
     int _numInputSources;
-    /**
-     Angle between each of the loudspeakers
-     */
-    float _d;
+
+    
+    float _d; // Angle between each of the loudspeakers
+    float _angle; // The current source angle;
     
     /*
      Stores the output samples for a single frame, for each of the number output speakers
      */
     std::vector<float> _output;
+    
+    std::vector<float> _amplitudes; // save the amplitudes, so we can set the angle and forget, instead of calculating every frame when we don't need to.
     
     
 };
