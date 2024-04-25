@@ -32,9 +32,27 @@ public:
     
     HRTF loadHRTF(float azimuth, float elevation);
     
+    HRTF resample(HRTF x, int len);
+    
+    int numHRTFs() {return _hrtfMap.size();};
+    
     
 private:
     HRTFMap _hrtfMap;
 };
+
+
+
+
+
+class SOFALoader {
+public:
+    
+    bool setup();
+    HRTF loadHRTF(float azimuth, float elevation);
+};
+
+
+
 
 #endif /* Spatializer_hpp */

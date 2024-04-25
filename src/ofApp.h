@@ -12,6 +12,10 @@
 #include "AudioEngine.hpp"
 #include "ofxOsc.h"
 #include "WaveformDisplay.hpp"
+#include "OmniConfig.h"
+#include "yaml_all.hpp"
+#include "SpatialSliders.hpp"
+#include "SpatializerDisplay.hpp"
 
 #define OSC_PORT 5000
 
@@ -44,6 +48,10 @@ class ofApp : public ofBaseApp{
         // audio helper
         int msToSamps(float ms);
         float sampsToMs(int samps);
+    
+        // ======= Config =======
+        void loadConfig();
+        Omni::OfxConfig omniCfg;
     
     
         // ====== GUI =========
@@ -88,7 +96,11 @@ class ofApp : public ofBaseApp{
         std::vector<int> warpPoints;
     
     
-        // GUI
+        //  =================GUI
+        ofxPanel spatialPanel;
+        SpatialSliders spatialSliders;   // Spatial Controls
+    
+    
         ofxPanel gui;
     
         ofParameter<bool> delayModeOn;
@@ -164,6 +176,9 @@ class ofApp : public ofBaseApp{
         bool stopAudio;
     
         ofxOscReceiver oscClient;
+        WaveformDisplay waveformDisplay;
+        SpatializerDisplay spatializerDisplay;
+        ofEasyCam cam;
     
     
         
