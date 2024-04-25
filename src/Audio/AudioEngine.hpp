@@ -37,6 +37,7 @@ public:
                const std::string spatializerType,
                int numSpatializers
     );
+    void cleanup();
     float process(const float input);
     void process(const float * inputBuffer, float * outputBuffer);
     void process();

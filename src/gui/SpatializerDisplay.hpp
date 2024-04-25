@@ -22,7 +22,7 @@ struct SpatializerDisplayState {
 
 class SpatializerDisplay {
 public:
-    void setup();
+    bool setup();
     void update();
     void updatePosition(float azimuth, float elevation);
     void draw();

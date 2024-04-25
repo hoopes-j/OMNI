@@ -7,7 +7,7 @@
 
 #include "SpatializerDisplay.hpp"
 
-void SpatializerDisplay::setup() {
+bool SpatializerDisplay::setup() {
     
     state.boxPos = ofVec2f(100, 100);
     state.boxSize = ofVec2f(200,200);
@@ -32,6 +32,7 @@ void SpatializerDisplay::setup() {
             angles.push_back(a);
         }
     
+    return true;
 }
 
 void SpatializerDisplay::update() {

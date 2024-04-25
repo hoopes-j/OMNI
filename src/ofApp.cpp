@@ -131,7 +131,7 @@ void ofApp::setup(){
     
     
     
-    // ================== GUI
+    // Control Panels ============================================
     int nCols = 4;
     int colWidth = 200;
     int pX = 10;
@@ -169,21 +169,8 @@ void ofApp::setup(){
     
 
    
-
-
-//    grainSpeeds.resize(granConfig.numGrains);
-//    for (int i = 0; i < granConfig.numGrains; i++) {
-//        globalCtrl.add(grainSpeeds[i].setup("Grain i", 1.0, -2.0, 2.0));
-//    }
-
-    
-
     randness.add(startRandomness.setup("start", 0.0, 0.0, 1.0));
     randness.add(lengthRandomness.setup("length", 0.0, 0.0, 1.0));
-    
-    
-    
-    
     
     std::vector<ofSoundDevice> devices = soundStream.getDeviceList();
 
@@ -225,21 +212,25 @@ void ofApp::setup(){
         exit();
     }
     
-    if (!waveformDisplay.setup(500,50)) {
-        std::cerr << "[ofApp::setup] Unable to setup Waveform Display" << std::endl;
-        exit();
-    }
-    
-    
-    
     // Spatial Gui
     spatialSliders.setup(
                          omniCfg.spatial.numSpatializers,
                          omniCfg.spatial.type);
     spatialPanel.add(spatialSliders.params);
     
+    // ==========================================================================================
     
     
+    // GRAPHICS ============================================
+    if (!waveformDisplay.setup(500,50)) {
+        std::cerr << "[ofApp::setup] Unable to setup Waveform Display" << std::endl;
+        exit();
+    }
+    if (!spatializerDisplay.setup()) {
+        std::cerr << "[ofApp::setup] Unable to setup Spatial Display" << std::endl;
+        exit();
+    }
+    // ==========================================================================================
     
     
   // OSC ===========
@@ -454,8 +445,10 @@ void ofApp::update(){
             int azimuth = aVal-(aVal%15);
             spatialSliders.elevations[i] = elevation;
             spatialSliders.azimuths[i] = azimuth;
+//            spatializerDisplay.updatePosition(azimuth, elevation);
             audioEngine.setBinauralPosition(i,azimuth, elevation);
         }
+
     }
     // ==========
 
@@ -629,9 +622,11 @@ void ofApp::draw(){
     
     
     // ====== Visualizers
-    cam.begin();
-    waveformDisplay.draw();
-    cam.end();
+//    cam.begin();
+//    waveformDisplay.draw();
+//    cam.end();
+    
+//    spatializerDisplay.draw();
     // ======
     
 
@@ -681,6 +676,9 @@ void ofApp::drawGrainWindow(float * data, int length, std::string & type, int x,
 
 //--------------------------------------------------------------
 void ofApp::exit(){
+    
+    audioEngine.cleanup();
+    spatializerDisplay.cleanup();
 
 }
 

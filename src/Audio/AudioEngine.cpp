@@ -152,6 +152,10 @@ void AudioEngine::setLoudspeakerPosition(int processorNum, int position) {
 }
 
 
-
+void AudioEngine::cleanup()
+{
+    granulator.cleanup();
+    binaural.cleanup();
+}
 
 

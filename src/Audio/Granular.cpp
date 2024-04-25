@@ -312,3 +312,7 @@ std::string GranularState::toString() {
     out += "loopStart: " + std::to_string(this->loopPointer);
     return out;
 }
+
+void Granular::cleanup() {
+    delete[] _delayBuffer;
+}

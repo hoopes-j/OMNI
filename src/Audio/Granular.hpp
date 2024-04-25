@@ -91,11 +91,12 @@ class Granular {
 public:
     Granular(){};
     ~Granular(){
-        delete[] _delayBuffer;
+        this->cleanup();
     };
 
     
     bool setup(GranularConfig granConfig);
+    void cleanup();
     bool updateConfig(GranularConfig granConfig);
     
 

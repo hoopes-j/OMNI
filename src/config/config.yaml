@@ -26,10 +26,11 @@ output_channels: 2
 
 
 # ======= Spatial
-useSpatial: true
+useSpatial: false
 spatial:
 #    type: loudspeaker
-    type: binaural
+#    type: binaural
+    type: none
     num_processors: 2
     
     
