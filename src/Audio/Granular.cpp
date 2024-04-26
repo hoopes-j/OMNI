@@ -36,6 +36,7 @@ bool Granular::updateConfig(GranularConfig config) {
     _config = config;
     _state.readPointer = (this->_config.delayBufferSize+(_state.writePointer-_config.delayTime))%this->_config.delayBufferSize;
     _envFollower.setThreshold(_config.transientThreshold);
+    _envFollower.setSensitivity(_config.transientSensitivity);
     return true;
 }
 
@@ -89,8 +90,21 @@ GranularState Granular::getState() {
 
 void Granular::processSetup(float input) {
     if (!_config.freeze) {
-        _delayBuffer[_particles[0].writePointer] = input;
+        int writePtr =_particles[0].writePointer;
+        _delayBuffer[writePtr] = input;
         
+        // smooth other side of write pointer
+        int smoothLen = 5;
+        int prev = writePtr;
+        for (int i = 0; i < smoothLen; i++) {
+            int curr = (prev+1)%_config.delayBufferSize;
+            int next = (curr+1)%_config.delayBufferSize;
+            _delayBuffer[curr] = _delayBuffer[prev]*.5+_delayBuffer[next]*.5;
+            prev=curr;
+        }
+
+
+
         // clear table of existing transients
         for (int i = 0; i < transientPositions.size(); i++) {
             if (_particles[0].writePointer == transientPositions[i]) {
@@ -124,7 +138,7 @@ float Granular::process(float input) {
         } else if (_config.feedback<0.f) {
             safeFeedback = 0.f;
         } else {
-            safeFeedback = _config.feedback;
+            safeFeedback = _config.feedback*10;
         }
         _delayBuffer[_particles[0].writePointer] += out*safeFeedback;
     }
@@ -198,6 +212,9 @@ float Granular::processGrain(int index) {
         out = _delayBuffer[prevIdx]*fracBelow+_delayBuffer[prevIdx+1]*fracAbove;
     #endif
         
+        if (state->loopPointer >= _config.delayBufferSize || state->loopPointer < 0) {
+            out = 0;
+        }
         if (state->loopPointer >= _config.delayBufferSize || state->loopPointer < 0) {
             out = 0;
         }

@@ -17,8 +17,6 @@
 
 
 
-
-
 # ======= I/O
 
 input_channels: 1
@@ -30,8 +28,8 @@ buffer_size: 512
 # ======= Spatial
 useSpatial: true
 spatial:
-    type: loudspeaker
-#    type: binaural
+    type: binaural
+#    type: binaural            
     num_processors: 2
     proc1_mapping: [0,1,2,3]
     proc2_mapping: [4,5,6,7]
@@ -45,6 +43,6 @@ granular:
 
 # ======= Graphics
 graphics:
-    renderSpatializer: false
+    renderSpatializer: true
     bufferRenderType: "2D"
     background_color: [0,0,0,255]

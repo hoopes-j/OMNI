@@ -39,7 +39,7 @@ public:
         }
         rms=sqrtf(rms/_n);
         
-        bool isTransient = rms>t_1 && rms>t_2*_threshold;
+        bool isTransient = rms > _threshold && rms>t_1 && rms>t_2*_sensitivity;
         
         // shift historical levels
         t_2 = t_1;
@@ -62,6 +62,9 @@ public:
     void setThreshold(float threshold) {
         _threshold = threshold;
     }
+    void setSensitivity(float sensitivity) {
+        _sensitivity = sensitivity;
+    }
     
     void cleanup();
     
@@ -75,6 +78,8 @@ public:
     float t_2;
     // Threshold for second
     float _threshold;
+    // Sensitivity for second
+    float _sensitivity;
     std::vector<int> _transientIndices;
     
     

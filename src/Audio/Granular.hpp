@@ -40,6 +40,7 @@ public:
     float warpAmount;
     int numWarpPoints;
     float transientThreshold;
+    float transientSensitivity;
     
     float startRandomness;
     float lengthRandomness;

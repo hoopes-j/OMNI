@@ -157,10 +157,10 @@ void ofApp::setup(){
 
    
     grainPanel.add(bufferIdx.set("buffer index", 0, 0, 3));
-    grainPanel.add(loopLength.setup("grain length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    grainPanel.add(loopLength.set("grain length", 1000, 0, this->sampsToMs(granConfig.delayBufferSize)));
     grainPanel.add(freeze.set("freeze", false));
     grainPanel.add(follow.setup("follow", false));
-    grainPanel.add(loopStart.setup("grain start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
+    grainPanel.add(loopStart.set("grain start", 0, 0, this->sampsToMs(granConfig.delayBufferSize)));
     grainPanel.add(delayGroup);
     grainPanel.add(gSliders.params);
     grainPanel.add(gSliders.warpGroup);
@@ -170,8 +170,8 @@ void ofApp::setup(){
 
     
 
-    randness.add(startRandomness.setup("start", 0.0, 0.0, 1.0));
-    randness.add(lengthRandomness.setup("length", 0.0, 0.0, 1.0));
+    randness.add(startRandomness.set("start", 0.0, 0.0, 1.0));
+    randness.add(lengthRandomness.set("length", 0.0, 0.0, 1.0));
     randness.add(gSliders.grainGroup);
     
     
@@ -348,6 +348,8 @@ void ofApp::update(){
         ofxOscMessage msg;
         oscClient.getNextMessage(&msg);
         
+        int oscMax = 127;
+        
         std::cout << msg.getAddress() << std::endl;
         
         std::string addr = msg.getAddress();
@@ -358,18 +360,67 @@ void ofApp::update(){
 
             
             if (suffix=="global_amplitude") {
-                float val = msg.getArgAsInt(0)/(float)127;
-                ofParameter<float> * ref = &globalAmplitude;
-                ref[0] = val*globalAmplitude.getMax();
-            }else if (suffix=="grain_pitch") {
-                float grainIdx = msg.getArgAsInt(1);
-                float value = msg.getArgAsFloat(0);
-                std::cout << grainIdx << "  --- " << value << std::endl;
-            }else if (suffix=="global_pitch") {
-                float value = msg.getArgAsFloat(0)/(float)127;
-                ofParameter<float> * ref = &gSliders.pitchMultiplier;
-                ref[0] = value*(ref->getMax()-ref->getMin())+ref->getMin();
+                setParamRef(&globalAmplitude, msg.getArgAsFloat(0));
             }
+            else if (suffix=="amp") {
+                float grainIdx = msg.getArgAsInt(1);
+                setParamRef(&gSliders.amps[grainIdx], msg.getArgAsFloat(0));
+            }
+            else if (suffix=="grain_pitch") {
+                float grainIdx = msg.getArgAsInt(1);
+                setParamRef(&gSliders.pitches[grainIdx], msg.getArgAsFloat(0));
+            }
+            else if (suffix=="global_pitch") {
+                setParamRef(&gSliders.pitchMultiplier, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="length") {
+                setParamRef(&loopLength, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="start") {
+                setParamRef(&loopStart, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="delay_time") {
+                setParamRef(&delayTime, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="random_start") {
+                setParamRef(&startRandomness, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="random_length") {
+                setParamRef(&lengthRandomness, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="warp_amount") {
+                setParamRef(&gSliders.warpAmount, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="transient_thresh") {
+                setParamRef(&gSliders.transientThreshold, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="transient_sens") {
+                setParamRef(&gSliders.transientSensitivity, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="feedback") {
+                setParamRef(&feedback, msg.getArgAsFloat(0));
+            }
+            else if (suffix=="pedal") {
+//                setParamRef(&startRandomness, msg.getArgAsFloat(0));
+            }
+            
+            // ===== buttons
+            else if (suffix=="freeze") {
+                if (msg.getArgAsInt(0) == oscMax) {
+                    freeze = !freeze;
+                }
+            }
+            else if (suffix=="delay_mode") {
+                if (msg.getArgAsInt(0) == oscMax) {
+                    delayModeOn = !delayModeOn;
+                }
+            }
+            else if (suffix=="manual_pitch") {
+                if (msg.getArgAsInt(0) == oscMax) {
+                    gSliders.manualPitch = !gSliders.manualPitch;
+                }
+            }
+
 
 
 
@@ -406,6 +457,8 @@ void ofApp::update(){
     granConfig.warpAmount = gSliders.warpAmount;
     granConfig.numWarpPoints = gSliders.numWarpPoints;
     granConfig.transientThreshold = gSliders.transientThreshold;
+    granConfig.transientSensitivity = gSliders.transientSensitivity;
+
     // ======
     
     granConfig.startRandomness = this->startRandomness;

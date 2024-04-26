@@ -49,7 +49,8 @@ void GrainSliders::setup(int numGrains) {
     warpGroup.setName("warping");
     warpGroup.add(numWarpPoints.set("Transient Number", 1.0, 1.0, 10.0));
     warpGroup.add(warpAmount.set("warp", 1.0, 0.0, 1.0));
-    warpGroup.add(transientThreshold.set("Transient Threshold", 1.5, 0.0, 2.0));
+    warpGroup.add(transientSensitivity.set("Transient Sensitivity", 1.5, 0.0, 2.0));
+    warpGroup.add(transientThreshold.set("Transient Threshold", 0.0, 0.0, .1));
     
     setupWindowTypeSelector();
 }

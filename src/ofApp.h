@@ -114,15 +114,15 @@ class ofApp : public ofBaseApp{
         ofParameter<bool> freeze;
         ofxPanel grainPanel;
         ofParameter<float> bufferIdx;
-        ofxIntSlider loopLength;
+        ofParameter<int> loopLength;
         ofxToggle follow;
-        ofxIntSlider loopStart;
+        ofParameter<int> loopStart;
     
     
         // Randomness
         ofxPanel randness;
-        ofxFloatSlider startRandomness;
-        ofxFloatSlider lengthRandomness;
+        ofParameter<float> startRandomness;
+        ofParameter<float> lengthRandomness;
     
         // IO
         ofxPanel ioPanel;
@@ -170,6 +170,15 @@ class ofApp : public ofBaseApp{
         bool stopAudio;
     
         ofxOscReceiver oscClient;
+        template <class T>
+        void setParamRef(ofParameter<T> * ref, float value) {
+            float max = ref->getMax();
+            float min = ref->getMin();
+            float r = max-min;
+            float v = value*(r/127)+min;
+            std::cout << value << std::endl;
+            ref[0] = (T) v;
+        }
         WaveformDisplay waveformDisplay;
         BinauralDisplay binauralDisplay;
         BufferDisplay buffDisplay;

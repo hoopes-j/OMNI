@@ -34,6 +34,7 @@ public:
     ofParameter<int> numWarpPoints;
     ofParameter<float> warpAmount;
     ofParameter<float> transientThreshold;
+    ofParameter<float> transientSensitivity;
     
     
     unique_ptr<ofxDropdown> windowDropdown;
