@@ -16,6 +16,7 @@ bool LoudspeakerSpatializer::setup(int numSpeakers)
     
     _d = (M_PI*2)/_numOutputSources;
     _angle = 0;
+    this->updateAngle(_angle);
     
     return true;
 }
@@ -61,7 +62,9 @@ void LoudspeakerSpatializer::processAndStore(float input)
 
 void LoudspeakerSpatializer::clearOutput()
 {
-    _output.clear();
+    for (int i = 0; i < _numOutputSources; i++) {
+        _output[i] = 0.f;
+    }
 }
 
 float LoudspeakerSpatializer::getSampleAtChannel(int channel) {
@@ -74,6 +77,8 @@ float LoudspeakerSpatializer::getSampleAtChannel(int channel) {
 
 void LoudspeakerSpatializer::updateAngle(float angle)
 {
+    // Convert to radians
+    angle *=(M_PI/180);
     this->_angle = angle;
     
     float twoPi = M_PI*2;
@@ -104,6 +109,28 @@ void LoudspeakerSpatializer::updateAngle(float angle)
         
         _amplitudes[n] = amplitude;
     }
+}
+
+void LoudspeakerSpatializer::simpleUpdateAngle(float angle)
+{
+    // Reset Amplitudes
+    for (int i = 0; i < _numOutputSources; i++) {
+        _amplitudes[i]=0;
+    }
+    float range = 360;
+    float delta = range/_numOutputSources;
+    for (int i = 0; i < _numOutputSources; i++) {
+        float btm = i*delta;
+        float top = ((i+1)*delta);
+        if (angle < top && angle >= btm) {
+            float fracBelow = 1-(angle-btm)/delta;
+            float fracAbove = 1-(top-angle)/delta;
+            int idxAbove = (i+1)%_numOutputSources;
+            _amplitudes[i] = fracBelow;
+            _amplitudes[idxAbove] = fracAbove;
+        }
+    }
+
 }
 
 

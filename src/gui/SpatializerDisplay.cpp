@@ -91,7 +91,6 @@ void BinauralDisplay::draw() {
 //    // now draw
 //    box.draw();
     
-    ofDrawBitmapString("Spatializer", 100, 100);
     
     float radius = 100;
 

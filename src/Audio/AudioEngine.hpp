@@ -78,6 +78,7 @@ public:
     void setBinauralPosition(int processorNum, int azimuth, int elevation);
     void setLoudspeakerPosition(int processorNum, int position);
     void setSpatialMappings(std::vector<std::vector<int>> mappings) {_spatialMappings=mappings;};
+    void setPitches(std::vector<float> pitches) {granulator.distributePitch(pitches);}
     
 
     

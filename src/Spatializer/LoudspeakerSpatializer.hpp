@@ -45,6 +45,7 @@ public:
     
     [[deprecated("Careful When using this overload!! behavior is undefined for parent class")]]
     void updateAngle(float angle);
+    void simpleUpdateAngle(float angle);
     
     
 private:

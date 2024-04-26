@@ -6,7 +6,7 @@
 //
 
 #include "LoudspeakerController.hpp"
-
+LoudspeakerController::LoudspeakerController() {}
 LoudspeakerController::~LoudspeakerController() {
     this->cleanup();
 }
@@ -37,17 +37,21 @@ void LoudspeakerController::clearAll() {
 
 void LoudspeakerController::readOutput(float *output) {
     for (int i = 0; i < _numOutputs; i++) {
-        float sum = 0;
-        for (int j = 0; j < _numProcessors; j++) {
-            sum += _loudspeakerProcessors[j]->getSampleAtChannel(i);
-        }
-        output[i] = sum;
+        output[i] = this->getSampleAtChannel(i);
     }
+}
+float LoudspeakerController::getSampleAtChannel(int channel) {
+    float sum = 0;
+    for (int j = 0; j < _numProcessors; j++) {
+        sum += _loudspeakerProcessors[j]->getSampleAtChannel(channel);
+    }
+    return sum;
 }
 
 
 void LoudspeakerController::updatePosition(int index, int angle) {
-    _loudspeakerProcessors[index]->updateAngle(angle);
+//    _loudspeakerProcessors[index]->updateAngle(angle);
+    _loudspeakerProcessors[index]->simpleUpdateAngle(angle);
 }
 
 void LoudspeakerController::cleanup() {

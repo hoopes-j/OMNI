@@ -32,6 +32,10 @@ public:
         Fills the given pointer with the samples currently stored in this instance's output.
      */
     void readOutput(float * output);
+    /**
+        Retrieves the sample at a channel, summed over all the current processors
+     */
+    float getSampleAtChannel(int channel);
         
     /**
         Resets all the stored outputs back to 0.

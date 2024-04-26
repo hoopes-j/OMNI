@@ -51,11 +51,11 @@ bool AudioEngine::setup(
     
     // LOUDSPEAKER specific setup
     if (_spatializerType == LOUDSPEAKER_MODE) {
-        if (!loudspeakerSpatializer.setup(2)) {
+        if (!loudspeaker.setup(_numSpatializers, _numOutputChannels)) {
             std::cerr << "[AudioEngine::setup] Unable to setup Loudspeaker spatializer" << std::endl;
             return false;
         }
-        loudspeakerSpatializer.processAndStore(1.0f, M_PI/2);
+        loudspeaker.processAndStore(0, M_PI/2);
         std::cout << "[AudioEngine::setup] " << "using loudspeaker spatializer" << std::endl;
     }
     // BINAURAL specific setup
@@ -90,10 +90,14 @@ void AudioEngine::process()
         granulator.processEach(input, granularOutput.data());
         
         if (_spatializerType == LOUDSPEAKER_MODE) {
-            loudspeakerSpatializer.clearOutput();
-            loudspeakerSpatializer.processAndStore(out, 0);
+            loudspeaker.clearAll();
+            for (int s = 0; s < _spatialMappings.size(); s++) {
+                for (int g : _spatialMappings[s]) {
+                    loudspeaker.processAndStore(s, granularOutput[g]);
+                }
+            }
             for (int channel = 0; channel < _numOutputChannels; channel++) {
-                float spatialized = loudspeakerSpatializer.getSampleAtChannel(channel);
+                float spatialized = loudspeaker.getSampleAtChannel(channel);
                 this->setOutput(spatialized, frame, channel);
             }
         } else if (_spatializerType == BINAURAL_MODE) {
@@ -122,7 +126,14 @@ void AudioEngine::process()
             _binauralOutput[OMNI_R_CHANNEL] = 0;
         } else {
             for (int channel = 0; channel < _numOutputChannels; channel++) {
-                this->setOutput(granularOutput[channel], frame, channel);
+                for (int g = 0; g < 8; g++) {
+                    if (g < 8/2) {
+                        this->setOutput(granularOutput[g], frame, 0);
+                    } else {
+                        this->setOutput(granularOutput[g], frame, 1);
+                    }
+                }
+
             }
         }
     }
@@ -160,7 +171,7 @@ void AudioEngine::setBinauralPosition(int processorNum, int azimuth, int elevati
 }
 
 void AudioEngine::setLoudspeakerPosition(int processorNum, int position) {
-    loudspeakerSpatializer.updateAngle(position);
+    loudspeaker.updatePosition(processorNum, position);
 }
 
 

@@ -64,7 +64,7 @@ void ofApp::setup(){
     
     
     // Load wave file
-    if (!this->mockInput.setup("/Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/sample[voice].wav", true, true)) {
+    if (!this->mockInput.setup("/Users/jhoopes/code/libraries/of_v0.12.0_osx_release/apps/myApps/granular/src/sample[drum.wav", true, true)) {
         std::cerr << "sample not found" << std::endl;
     }
     this->mockInput.trigger();
@@ -114,8 +114,8 @@ void ofApp::setup(){
     if (!audioEngine.setup(
                            settings.sampleRate,
                            settings.bufferSize,
-                           settings.numInputChannels,
-                           settings.numOutputChannels,
+                           omniCfg.inputChannels,
+                           omniCfg.outputChannels,
                            granConfig,
                            omniCfg.spatial.type,
                            omniCfg.spatial.numSpatializers,
@@ -430,10 +430,10 @@ void ofApp::update(){
             for (int i = 0; i<omniCfg.granular.numVoices; i++) {
                 pitches[i]=gSliders.pitches[i]*gSliders.pitchMultiplier;
             }
-            gran.distributePitch(pitches);
+            audioEngine.setPitches(pitches);
         } else {
             pitches = _pitchManager.generate(granConfig.numGrains, gSliders.pitchSpread);
-            gran.distributePitch(pitches);
+            audioEngine.setPitches(pitches);
             gSliders.setPitches(pitches.data());
         }
     }
@@ -471,6 +471,10 @@ void ofApp::update(){
             spatialSliders.azimuths[i] = azimuth;
             binauralDisplay.updatePosition(i,azimuth,elevation);
             audioEngine.setBinauralPosition(i,azimuth, elevation);
+        }
+        if (omniCfg.spatial.type == LOUDSPEAKER_MODE) {
+            audioEngine.setLoudspeakerPosition(i, spatialSliders.positions[i]);
+//            audioEngine.setLoudspeakerPosition(i,azimuth, elevation);
         }
     }
     // ==========
